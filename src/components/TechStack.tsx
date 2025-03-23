@@ -1,9 +1,10 @@
 
 import React, { useEffect, useState } from 'react';
+import { Code, Database, Server } from 'lucide-react';
 
 interface TechItem {
   name: string;
-  icon: string;
+  icon: React.ReactNode;
   orbitClass: string;
   delay: string;
   size: string;
@@ -12,17 +13,18 @@ interface TechItem {
 const TechStack: React.FC = () => {
   const [isMounted, setIsMounted] = useState(false);
   
+  // Create tech items with proper icons
   const techItems: TechItem[] = [
-    { name: 'Python', icon: '🐍', orbitClass: 'animate-orbit-1', delay: '0s', size: 'w-12 h-12' },
-    { name: 'JavaScript', icon: 'JS', orbitClass: 'animate-orbit-1', delay: '4s', size: 'w-10 h-10' },
-    { name: 'TypeScript', icon: 'TS', orbitClass: 'animate-orbit-2', delay: '0s', size: 'w-11 h-11' },
-    { name: 'C++', icon: 'C++', orbitClass: 'animate-orbit-2', delay: '3s', size: 'w-12 h-12' },
-    { name: 'C#', icon: 'C#', orbitClass: 'animate-orbit-3', delay: '1s', size: 'w-10 h-10' },
-    { name: 'SQL', icon: 'SQL', orbitClass: 'animate-orbit-3', delay: '5s', size: 'w-11 h-11' },
-    { name: 'React', icon: '⚛️', orbitClass: 'animate-orbit-4', delay: '2s', size: 'w-12 h-12' },
-    { name: 'Node.js', icon: 'N', orbitClass: 'animate-orbit-4', delay: '7s', size: 'w-10 h-10' },
-    { name: 'Flask', icon: '🧪', orbitClass: 'animate-orbit-5', delay: '0s', size: 'w-10 h-10' },
-    { name: 'Django', icon: 'D', orbitClass: 'animate-orbit-5', delay: '4s', size: 'w-11 h-11' },
+    { name: 'Python', icon: <span className="text-lg">🐍</span>, orbitClass: 'animate-orbit-1', delay: '0s', size: 'w-12 h-12' },
+    { name: 'JavaScript', icon: <span className="text-sm font-bold">JS</span>, orbitClass: 'animate-orbit-1', delay: '4s', size: 'w-10 h-10' },
+    { name: 'TypeScript', icon: <span className="text-sm font-bold">TS</span>, orbitClass: 'animate-orbit-2', delay: '0s', size: 'w-11 h-11' },
+    { name: 'C++', icon: <span className="text-sm font-bold">C++</span>, orbitClass: 'animate-orbit-2', delay: '3s', size: 'w-12 h-12' },
+    { name: 'C#', icon: <span className="text-sm font-bold">C#</span>, orbitClass: 'animate-orbit-3', delay: '1s', size: 'w-10 h-10' },
+    { name: 'SQL', icon: <Database size={18} />, orbitClass: 'animate-orbit-3', delay: '5s', size: 'w-11 h-11' },
+    { name: 'React', icon: <span>⚛️</span>, orbitClass: 'animate-orbit-4', delay: '2s', size: 'w-12 h-12' },
+    { name: 'Node.js', icon: <Server size={18} />, orbitClass: 'animate-orbit-4', delay: '7s', size: 'w-10 h-10' },
+    { name: 'Flask', icon: <span>🧪</span>, orbitClass: 'animate-orbit-5', delay: '0s', size: 'w-10 h-10' },
+    { name: 'Django', icon: <Code size={18} />, orbitClass: 'animate-orbit-5', delay: '4s', size: 'w-11 h-11' },
   ];
   
   useEffect(() => {
@@ -61,9 +63,9 @@ const TechStack: React.FC = () => {
           </div>
         </div>
         
-        <div className="appear-animation relative min-h-[500px] md:min-h-[600px] flex items-center justify-center">
-          {/* Solar system visualization */}
-          <div className="absolute w-full h-full flex items-center justify-center">
+        <div className="appear-animation relative h-[500px] md:h-[600px] flex items-center justify-center overflow-visible">
+          {/* Solar system visualization with fixed overflow */}
+          <div className="absolute inset-0 flex items-center justify-center">
             {/* Inner glow */}
             <div className="absolute w-20 h-20 rounded-full bg-space-accent animate-pulse-glow"></div>
             
@@ -91,12 +93,12 @@ const TechStack: React.FC = () => {
                 key={tech.name}
                 className={`absolute ${tech.orbitClass}`}
                 style={{ 
-                  '--orbit-radius': `${Math.floor(index / 2) * 100 + 100}px`,
+                  '--orbit-radius': `${Math.floor(index / 2) * 100 + 75}px`,
                   animationDelay: tech.delay
                 } as React.CSSProperties}
               >
                 <div 
-                  className={`${tech.size} glass cosmic-border rounded-full flex items-center justify-center font-bold text-sm shadow-lg shadow-space-accent/10 cursor-pointer transition-transform duration-300 hover:scale-110`}
+                  className={`${tech.size} glass cosmic-border rounded-full flex items-center justify-center font-bold shadow-lg shadow-space-accent/10 cursor-pointer transition-transform duration-300 hover:scale-110`}
                   title={tech.name}
                 >
                   {tech.icon}

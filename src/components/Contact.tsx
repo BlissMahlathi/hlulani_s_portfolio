@@ -119,10 +119,21 @@ const Contact: React.FC = () => {
                 <div className="flex items-start mt-4">
                   <span className="text-space-accent mr-4 flex-shrink-0">📱</span>
                   <div>
-                    <h4 className="text-lg font-medium mb-1">Phone</h4>
+                    <h4 className="text-lg font-medium mb-1">Phone/WhatsApp</h4>
                     <a href="tel:+27715231720" className="text-gray-300 hover:text-white transition-colors duration-300">
                       +27 71 523 1720
                     </a>
+                    <p className="text-sm text-gray-400 mt-1">Available on WhatsApp for quick chats</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start mt-4">
+                  <span className="text-space-accent mr-4 flex-shrink-0">💻</span>
+                  <div>
+                    <h4 className="text-lg font-medium mb-1">Services</h4>
+                    <p className="text-gray-300">
+                      OS installations, system updates, desktop application setups, and software development
+                    </p>
                   </div>
                 </div>
                 
