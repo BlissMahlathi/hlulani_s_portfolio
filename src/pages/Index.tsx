@@ -5,6 +5,7 @@ import Hero from '../components/Hero';
 import About from '../components/About';
 import TechStack from '../components/TechStack';
 import Projects from '../components/Projects';
+import Pricing from '../components/Pricing';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 
@@ -40,6 +41,7 @@ const Index: React.FC = () => {
       <About />
       <TechStack />
       <Projects />
+      <Pricing />
       <Contact />
       <Footer />
     </div>
