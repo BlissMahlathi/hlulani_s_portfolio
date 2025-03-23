@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import { Mail, Github, Linkedin, Twitter } from 'lucide-react';
+import { Mail, Github, Linkedin, Facebook } from 'lucide-react';
 
 const Contact: React.FC = () => {
   useEffect(() => {
@@ -110,8 +110,18 @@ const Contact: React.FC = () => {
                   <Mail className="text-space-accent mr-4 flex-shrink-0" />
                   <div>
                     <h4 className="text-lg font-medium mb-1">Email</h4>
-                    <a href="mailto:contact@hlulani.dev" className="text-gray-300 hover:text-white transition-colors duration-300">
-                      contact@hlulani.dev
+                    <a href="mailto:blissmahlathi37@gmail.com" className="text-gray-300 hover:text-white transition-colors duration-300">
+                      blissmahlathi37@gmail.com
+                    </a>
+                  </div>
+                </div>
+                
+                <div className="flex items-start mt-4">
+                  <span className="text-space-accent mr-4 flex-shrink-0">📱</span>
+                  <div>
+                    <h4 className="text-lg font-medium mb-1">Phone</h4>
+                    <a href="tel:+27715231720" className="text-gray-300 hover:text-white transition-colors duration-300">
+                      +27 71 523 1720
                     </a>
                   </div>
                 </div>
@@ -136,12 +146,12 @@ const Contact: React.FC = () => {
                       <Linkedin size={22} />
                     </a>
                     <a 
-                      href="https://twitter.com/" 
+                      href="https://www.facebook.com/bliss.mahlathi.9/" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="w-12 h-12 rounded-full glass flex items-center justify-center text-gray-300 hover:text-white hover:bg-space-accent/20 transition-all duration-300"
                     >
-                      <Twitter size={22} />
+                      <Facebook size={22} />
                     </a>
                   </div>
                 </div>

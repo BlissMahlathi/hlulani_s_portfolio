@@ -16,7 +16,10 @@ const Footer: React.FC = () => {
           
           <div className="text-center md:text-right text-sm text-gray-400">
             <p>© {currentYear} Hlulani Bliss Mahlathi. All rights reserved.</p>
-            <p className="mt-1">Software Developer | Web Developer</p>
+            <p className="mt-1">
+              <a href="tel:+27715231720" className="hover:text-white transition-colors duration-300">+27 71 523 1720</a> | 
+              <a href="mailto:blissmahlathi37@gmail.com" className="ml-2 hover:text-white transition-colors duration-300">blissmahlathi37@gmail.com</a>
+            </p>
           </div>
         </div>
       </div>
