@@ -123,17 +123,29 @@ const Contact: React.FC = () => {
                     <a href="tel:+27715231720" className="text-gray-300 hover:text-white transition-colors duration-300">
                       +27 71 523 1720
                     </a>
-                    <p className="text-sm text-gray-400 mt-1">Available on WhatsApp for quick chats</p>
+                    <p className="text-sm text-gray-400 mt-1">Available on WhatsApp for quick chats and consultation</p>
                   </div>
                 </div>
                 
                 <div className="flex items-start mt-4">
                   <span className="text-space-accent mr-4 flex-shrink-0">💻</span>
                   <div>
-                    <h4 className="text-lg font-medium mb-1">Services</h4>
-                    <p className="text-gray-300">
-                      OS installations, system updates, desktop application setups, and software development
+                    <h4 className="text-lg font-medium mb-1">Services & Pricing</h4>
+                    <p className="text-gray-300 mb-2">
+                      Web development, OS installations, system updates, desktop application setups, and software development
                     </p>
+                    <div className="border-t border-white/10 pt-2 mt-2">
+                      <p className="text-sm text-gray-300 mb-1 font-medium">Competitive Pricing (38% below market rates):</p>
+                      <ul className="text-sm text-gray-400 space-y-1 list-disc list-inside">
+                        <li>Basic Websites: R3,100 - R6,200</li>
+                        <li>Small Business Websites: R3,720 - R9,920</li>
+                        <li>E-commerce Solutions: Starting from R31,000</li>
+                        <li>Custom Applications: Contact for quote</li>
+                      </ul>
+                      <p className="text-xs text-gray-400 mt-2 italic">
+                        All pricing includes hosting setup, domain configuration, and 1 month of support.
+                      </p>
+                    </div>
                   </div>
                 </div>
                 

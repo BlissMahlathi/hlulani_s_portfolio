@@ -13,6 +13,7 @@ const Footer: React.FC = () => {
               <span className="text-space-accent">H</span>lulani<span className="text-space-accent">.</span>
             </a>
             <p className="text-sm text-gray-400 mt-2">Developer | Musician | Tech Enthusiast</p>
+            <p className="text-xs text-gray-500 mt-1">Bass Guitar Player & Coding Enthusiast</p>
           </div>
           
           <div className="text-center md:text-right text-sm text-gray-400">

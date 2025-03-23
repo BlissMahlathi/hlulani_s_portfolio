@@ -8,43 +8,44 @@ interface Project {
   tech: string[];
   image: string;
   link: string;
+  github?: string;
 }
 
 const Projects: React.FC = () => {
   const projects: Project[] = [
     {
-      title: 'HotelY Services Platform',
-      description: 'A comprehensive showcase platform for hotel services with booking features and virtual tours.',
-      tech: ['React', 'Node.js', 'Express', 'MongoDB'],
-      image: 'bg-gradient-to-br from-blue-500/30 to-purple-600/30',
-      link: '#'
-    },
-    {
-      title: 'Pizza Delivery WebApp',
-      description: 'Order system with WhatsApp integration for seamless food ordering and delivery tracking.',
-      tech: ['JavaScript', 'HTML/CSS', 'WhatsApp API'],
-      image: 'bg-gradient-to-br from-red-500/30 to-orange-600/30',
-      link: '#'
+      title: 'Health Center Service Portal',
+      description: 'Healthcare service booking system with appointment management and patient portal.',
+      tech: ['Django', 'Python', 'PostgreSQL'],
+      image: 'bg-gradient-to-br from-cyan-500/30 to-blue-600/30',
+      link: 'https://test-tau-green-64.vercel.app/'
     },
     {
       title: 'Student Social Network',
       description: 'Platform connecting students for collaboration, resource sharing, and community building.',
       tech: ['MERN Stack', 'Socket.io', 'AWS'],
       image: 'bg-gradient-to-br from-green-500/30 to-teal-600/30',
-      link: '#'
+      link: 'https://univensocials.vercel.app/'
     },
     {
-      title: 'Health Center Service Portal',
-      description: 'Healthcare service booking system with appointment management and patient portal.',
-      tech: ['Django', 'Python', 'PostgreSQL'],
-      image: 'bg-gradient-to-br from-cyan-500/30 to-blue-600/30',
-      link: '#'
+      title: 'Pizza Delivery WebApp',
+      description: 'Order system with WhatsApp integration for seamless food ordering and delivery tracking.',
+      tech: ['JavaScript', 'HTML/CSS', 'WhatsApp API'],
+      image: 'bg-gradient-to-br from-red-500/30 to-orange-600/30',
+      link: 'https://danalphluja.vercel.app/'
     },
     {
       title: 'E-Commerce Platform',
       description: 'Small-scale e-commerce solution for artisanal products with payment processing.',
       tech: ['Flask', 'SQLite', 'Stripe API'],
       image: 'bg-gradient-to-br from-yellow-500/30 to-amber-600/30',
+      link: 'https://phenomenal-torte-764818.netlify.app/'
+    },
+    {
+      title: 'HotelY Services Platform',
+      description: 'A comprehensive showcase platform for hotel services with booking features and virtual tours.',
+      tech: ['React', 'Node.js', 'Express', 'MongoDB'],
+      image: 'bg-gradient-to-br from-blue-500/30 to-purple-600/30',
       link: '#'
     }
   ];
@@ -116,14 +117,16 @@ const Projects: React.FC = () => {
                     <span className="mr-2">View Project</span>
                     <ExternalLink size={16} />
                   </a>
-                  <a 
-                    href="#" 
-                    className="text-gray-400 hover:text-white transition-colors duration-300"
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                  >
-                    <Github size={18} />
-                  </a>
+                  {project.github && (
+                    <a 
+                      href={project.github} 
+                      className="text-gray-400 hover:text-white transition-colors duration-300"
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                    >
+                      <Github size={18} />
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
