@@ -8,7 +8,7 @@ const Hero: React.FC = () => {
   const buttonRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
-    // Animation on load
+    
     const elements = [titleRef.current, subtitleRef.current, buttonRef.current];
     
     elements.forEach((el, index) => {
