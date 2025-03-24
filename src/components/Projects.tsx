@@ -1,7 +1,7 @@
 
 import React, { useEffect } from 'react';
 import { ExternalLink, Github } from 'lucide-react';
-
+ 
 interface Project {
   title: string;
   description: string;
