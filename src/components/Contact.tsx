@@ -1,8 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
-import { Mail, Github, Linkedin, Facebook } from 'lucide-react';
+import { Mail, Github, Linkedin, Facebook, Phone } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
 
 const Contact: React.FC = () => {
   const { toast } = useToast();
@@ -31,6 +35,7 @@ const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     subject: '',
     message: '',
   });
@@ -43,6 +48,20 @@ const Contact: React.FC = () => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
+  // Save form data to local storage (as a backup)
+  const saveToLocalStorage = () => {
+    try {
+      const submissions = JSON.parse(localStorage.getItem('contactSubmissions') || '[]');
+      submissions.push({
+        ...formData,
+        date: new Date().toISOString(),
+      });
+      localStorage.setItem('contactSubmissions', JSON.stringify(submissions));
+    } catch (error) {
+      console.error('Error saving to local storage:', error);
+    }
+  };
+
   // Send email function
   const sendEmail = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,12 +69,17 @@ const Contact: React.FC = () => {
     setSuccess(false);
 
     try {
+      // Save a copy to local storage
+      saveToLocalStorage();
+      
+      // Send via EmailJS
       await emailjs.send(
         "service_aj6gldg", // Your Service ID
         "template_2hrl3bb", // Your Template ID
         {
           from_name: formData.name,
           from_email: formData.email,
+          from_phone: formData.phone,
           subject: formData.subject,
           message: formData.message,
         },
@@ -63,7 +87,7 @@ const Contact: React.FC = () => {
       );
 
       setSuccess(true);
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
       
       toast({
         title: "Message sent!",
@@ -100,13 +124,11 @@ const Contact: React.FC = () => {
             <form ref={formRef} onSubmit={sendEmail} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">
-                    Name
-                  </label>
-                  <input
+                  <Label htmlFor="name" className="text-gray-300">Name</Label>
+                  <Input
                     type="text"
                     id="name"
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-space-accent/50 transition-all duration-300"
+                    className="bg-white/5 border-white/10 text-white focus:ring-space-accent/50"
                     placeholder="Your name"
                     onChange={handleChange}
                     value={formData.name}
@@ -114,13 +136,11 @@ const Contact: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
-                    Email
-                  </label>
-                  <input
+                  <Label htmlFor="email" className="text-gray-300">Email</Label>
+                  <Input
                     type="email"
                     id="email"
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-space-accent/50 transition-all duration-300"
+                    className="bg-white/5 border-white/10 text-white focus:ring-space-accent/50"
                     placeholder="your.email@example.com"
                     onChange={handleChange}
                     value={formData.email}
@@ -130,13 +150,23 @@ const Contact: React.FC = () => {
               </div>
 
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-1">
-                  Subject
-                </label>
-                <input
+                <Label htmlFor="phone" className="text-gray-300">Phone Number</Label>
+                <Input
+                  type="tel"
+                  id="phone"
+                  className="bg-white/5 border-white/10 text-white focus:ring-space-accent/50"
+                  placeholder="+1 (123) 456-7890"
+                  onChange={handleChange}
+                  value={formData.phone}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="subject" className="text-gray-300">Subject</Label>
+                <Input
                   type="text"
                   id="subject"
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-space-accent/50 transition-all duration-300"
+                  className="bg-white/5 border-white/10 text-white focus:ring-space-accent/50"
                   placeholder="What is this regarding?"
                   onChange={handleChange}
                   value={formData.subject}
@@ -145,13 +175,11 @@ const Contact: React.FC = () => {
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-1">
-                  Message
-                </label>
-                <textarea
+                <Label htmlFor="message" className="text-gray-300">Message</Label>
+                <Textarea
                   id="message"
                   rows={5}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-space-accent/50 transition-all duration-300"
+                  className="bg-white/5 border-white/10 text-white focus:ring-space-accent/50"
                   placeholder="Your message here..."
                   onChange={handleChange}
                   value={formData.message}
@@ -159,14 +187,14 @@ const Contact: React.FC = () => {
                 />
               </div>
 
-              <button
+              <Button
                 type="submit"
-                className="cosmic-border glass px-6 py-3 text-white rounded-lg hover:bg-space-accent/20 transition-all duration-300 inline-flex items-center"
+                className="cosmic-border glass text-white hover:bg-space-accent/20"
                 disabled={isSending}
               >
                 <Mail size={18} className="mr-2" />
                 {isSending ? 'Sending...' : 'Send Message'}
-              </button>
+              </Button>
 
               {success && <p className="text-green-400 mt-4">Message sent successfully!</p>}
             </form>
@@ -186,6 +214,15 @@ const Contact: React.FC = () => {
                     <h4 className="text-lg font-medium mb-1">Email</h4>
                     <a href="mailto:blissmahlathi37@gmail.com" className="text-gray-300 hover:text-white transition-colors duration-300">
                       blissmahlathi37@gmail.com
+                    </a>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <Phone className="text-space-accent mr-4 flex-shrink-0" />
+                  <div>
+                    <h4 className="text-lg font-medium mb-1">Phone</h4>
+                    <a href="tel:+27123456789" className="text-gray-300 hover:text-white transition-colors duration-300">
+                      +27 12 345 6789
                     </a>
                   </div>
                 </div>
