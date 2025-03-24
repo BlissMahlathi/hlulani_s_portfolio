@@ -155,7 +155,7 @@ const Contact: React.FC = () => {
                   type="tel"
                   id="phone"
                   className="bg-white/5 border-white/10 text-white focus:ring-space-accent/50"
-                  placeholder="+1 (123) 456-7890"
+                  placeholder="+27 XX XXX XXXX"
                   onChange={handleChange}
                   value={formData.phone}
                 />
@@ -221,8 +221,8 @@ const Contact: React.FC = () => {
                   <Phone className="text-space-accent mr-4 flex-shrink-0" />
                   <div>
                     <h4 className="text-lg font-medium mb-1">Phone</h4>
-                    <a href="tel:+27123456789" className="text-gray-300 hover:text-white transition-colors duration-300">
-                      +27 12 345 6789
+                    <a href="tel:+27715231720" className="text-gray-300 hover:text-white transition-colors duration-300">
+                      +27 71 523 1720
                     </a>
                   </div>
                 </div>
