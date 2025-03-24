@@ -1,8 +1,13 @@
+
 import React, { useState, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
 import { Mail, Github, Linkedin, Facebook } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 const Contact: React.FC = () => {
+  const { toast } = useToast();
+  const formRef = React.useRef<HTMLFormElement>(null);
+
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -42,6 +47,7 @@ const Contact: React.FC = () => {
   const sendEmail = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSending(true);
+    setSuccess(false);
 
     try {
       await emailjs.send(
@@ -58,8 +64,18 @@ const Contact: React.FC = () => {
 
       setSuccess(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
+      
+      toast({
+        title: "Message sent!",
+        description: "Thank you for reaching out. I'll get back to you soon.",
+      });
     } catch (error) {
       console.error('Email sending error:', error);
+      toast({
+        title: "Message failed",
+        description: "There was an error sending your message. Please try again.",
+        variant: "destructive",
+      });
     }
 
     setIsSending(false);
@@ -81,7 +97,7 @@ const Contact: React.FC = () => {
         <div className="flex flex-col lg:flex-row gap-12">
           <div className="appear-animation lg:w-1/2 glass p-8 rounded-xl cosmic-border">
             <h3 className="text-2xl font-bold mb-6">Send Me a Message</h3>
-            <form onSubmit={sendEmail} className="space-y-6">
+            <form ref={formRef} onSubmit={sendEmail} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">
