@@ -1,11 +1,11 @@
 # Welcome to my portfolio project
 
-## Project info
+## Project information
 
 **URL**: 
 https://hlulaniblissmahlathi.netlify.app/
 
-## Tech used for this project?
+## Tech used for this project
 
 This project is built with .
 
