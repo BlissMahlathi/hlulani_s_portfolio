@@ -33,7 +33,7 @@ const Contact: React.FC = () => {
     };
   }, []);
 
-  // State for form data
+  
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -45,14 +45,14 @@ const Contact: React.FC = () => {
   const [isSending, setIsSending] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  // Handle form input changes
+  
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  // Save form data to local storage (as a backup)
+  
   const saveToLocalStorage = () => {
     try {
       const submissions = JSON.parse(
@@ -68,20 +68,18 @@ const Contact: React.FC = () => {
     }
   };
 
-  // Send email function
+  
   const sendEmail = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSending(true);
     setSuccess(false);
 
     try {
-      // Save a copy to local storage
       saveToLocalStorage();
-
-      // Send via EmailJS
+      
       await emailjs.send(
-        "service_aj6gldg", // Your Service ID
-        "template_2hrl3bb", // Your Template ID
+        "service_aj6gldg", 
+        "template_2hrl3bb", 
         {
           from_name: formData.name,
           from_email: formData.email,
@@ -89,7 +87,7 @@ const Contact: React.FC = () => {
           subject: formData.subject,
           message: formData.message,
         },
-        "jwAocflEQAnOt0cJQ" // Your Public Key
+        "jwAocflEQAnOt0cJQ" 
       );
 
       setSuccess(true);
@@ -268,7 +266,7 @@ const Contact: React.FC = () => {
                     <Github size={22} />
                   </a>
                   <a
-                    href="https://linkedin.com/"
+                    href="https://linkedin.com/hlulani mahlathi"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
