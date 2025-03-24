@@ -12,7 +12,7 @@ interface TechItem {
 const TechStack: React.FC = () => {
   const [isMounted, setIsMounted] = useState(false);
 
-  // Create tech items with proper icons
+  
   const techItems: TechItem[] = [
     {
       name: "Python",
@@ -127,17 +127,17 @@ const TechStack: React.FC = () => {
         </div>
 
         <div className="appear-animation relative h-[500px] md:h-[600px] flex items-center justify-center overflow-visible">
-          {/* Solar system visualization with fixed overflow */}
+          
           <div className="absolute inset-0 flex items-center justify-center">
-            {/* Inner glow */}
+            
             <div className="absolute w-20 h-20 rounded-full bg-space-accent animate-pulse-glow"></div>
 
-            {/* Sun - core skills */}
+    
             <div className="relative w-16 h-16 bg-space-accent rounded-full z-20 flex items-center justify-center text-sm font-bold animate-float">
               CORE
             </div>
 
-            {/* Orbit paths */}
+            
             {[1, 2, 3, 4, 5].map((i) => (
               <div
                 key={`orbit-${i}`}
@@ -150,7 +150,7 @@ const TechStack: React.FC = () => {
               />
             ))}
 
-            {/* Tech items on orbit */}
+            
             {isMounted &&
               techItems.map((tech, index) => (
                 <div
