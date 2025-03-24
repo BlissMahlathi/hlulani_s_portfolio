@@ -1,4 +1,4 @@
-
+ 
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 
@@ -58,7 +58,7 @@ const Navbar: React.FC = () => {
         </div>
       </div>
       
-      {/* Mobile menu */}
+      
       <div className={`glass md:hidden absolute w-full transition-all duration-300 ease-in-out ${isOpen ? 'max-h-64 py-4 opacity-100' : 'max-h-0 py-0 opacity-0 overflow-hidden'}`}>
         <div className="flex flex-col px-4 space-y-4">
           {navLinks.map((link) => (
