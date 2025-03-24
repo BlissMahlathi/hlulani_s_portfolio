@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-
+ 
 const About: React.FC = () => {
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
