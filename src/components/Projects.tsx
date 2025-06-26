@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ExternalLink, Github } from 'lucide-react';
+import { ExternalLink, Github, Star } from 'lucide-react';
 
 interface Project {
   title: string;
@@ -17,7 +17,7 @@ const Projects: React.FC = () => {
       title: 'Passion Mogale Borehole Drilling',
       description: 'Professional website for a borehole drilling company showcasing services, projects and contact information.',
       tech: ['HTML/CSS', 'JavaScript', 'Netlify'],
-      image: 'bg-gradient-to-br from-blue-600/20 to-blue-900/20',
+      image: 'bg-gradient-to-br from-blue-600 to-blue-900',
       link: 'https://passionmogale.netlify.app',
       featured: true
     },
@@ -25,21 +25,21 @@ const Projects: React.FC = () => {
       title: 'Health Center Service Portal',
       description: 'Healthcare service booking system with appointment management and patient portal.',
       tech: ['Django', 'Python', 'PostgreSQL'],
-      image: 'bg-gradient-to-br from-cyan-500/20 to-blue-600/20',
+      image: 'bg-gradient-to-br from-cyan-500 to-blue-600',
       link: 'https://test-tau-green-64.vercel.app/'
     },
     {
       title: 'OGT Student Residence',
       description: 'Modern website for student accommodation with booking system and virtual tours.',
       tech: ['React', 'CSS3', 'Netlify'],
-      image: 'bg-gradient-to-br from-purple-500/20 to-indigo-600/20',
+      image: 'bg-gradient-to-br from-purple-500 to-indigo-600',
       link: 'https://ogtresidence.netlify.app'
     },
     {
       title: 'Student Social Network',
       description: 'Platform connecting students for collaboration, resource sharing, and community building.',
       tech: ['MERN Stack', 'Socket.io', 'AWS'],
-      image: 'bg-gradient-to-br from-green-500/20 to-teal-600/20',
+      image: 'bg-gradient-to-br from-green-500 to-teal-600',
       link: 'https://univensocials.vercel.app/',
       featured: true
     },
@@ -47,21 +47,21 @@ const Projects: React.FC = () => {
       title: 'Retema Student Accommodation',
       description: 'Elegant website for student housing with gallery, amenities showcase and contact form.',
       tech: ['HTML5', 'CSS3', 'JavaScript'],
-      image: 'bg-gradient-to-br from-amber-500/20 to-orange-600/20',
+      image: 'bg-gradient-to-br from-amber-500 to-orange-600',
       link: 'https://retema.netlify.app'
     },
     {
       title: 'Pizza Delivery WebApp',
       description: 'Order system with WhatsApp integration for seamless food ordering and delivery tracking.',
       tech: ['JavaScript', 'HTML/CSS', 'WhatsApp API'],
-      image: 'bg-gradient-to-br from-red-500/20 to-pink-600/20',
+      image: 'bg-gradient-to-br from-red-500 to-pink-600',
       link: 'https://danalphluja.vercel.app/'
     },
     {
       title: 'Hacking Alert Prank',
       description: 'Fun cybersecurity prank page that simulates a system breach with realistic effects.',
       tech: ['JavaScript', 'HTML/CSS', 'Animations'],
-      image: 'bg-gradient-to-br from-gray-700/20 to-black/20',
+      image: 'bg-gradient-to-br from-gray-700 to-black',
       link: 'https://delicate-concha-2e8ec5.netlify.app',
       featured: true
     },
@@ -69,21 +69,21 @@ const Projects: React.FC = () => {
       title: 'E-Commerce Platform',
       description: 'Small-scale e-commerce solution for artisanal products with payment processing.',
       tech: ['Flask', 'SQLite', 'Stripe API'],
-      image: 'bg-gradient-to-br from-yellow-500/20 to-amber-600/20',
+      image: 'bg-gradient-to-br from-yellow-500 to-amber-600',
       link: 'https://phenomenal-torte-764818.netlify.app/'
     },
     {
       title: 'HotelY Services Platform',
       description: 'Comprehensive showcase platform for hotel services with booking features and virtual tours.',
       tech: ['React', 'Node.js', 'Express', 'MongoDB'],
-      image: 'bg-gradient-to-br from-blue-500/20 to-purple-600/20',
+      image: 'bg-gradient-to-br from-blue-500 to-purple-600',
       link: 'https://bnb-hotely.onrender.com/'
     },
     {
       title: 'Campus Eats Online Store',
       description: 'Food delivery platform for campus students with menu customization and payment integration.',
       tech: ['React', 'Node.js', 'Supabase', 'TypeScript'],
-      image: 'bg-gradient-to-br from-emerald-500/20 to-green-600/20',
+      image: 'bg-gradient-to-br from-emerald-500 to-green-600',
       link: 'https://campus-eats-five.vercel.app/'
     }
   ];
@@ -107,47 +107,57 @@ const Projects: React.FC = () => {
   }, []);
   
   return (
-    <section id="projects" className="py-24 relative">
-      {/* Decorative background elements */}
+    <section id="projects" className="py-16 md:py-24 relative">
+      {/* Floating background elements */}
       <div className="absolute inset-0 overflow-hidden opacity-5 pointer-events-none">
-        <div className="absolute top-0 left-0 w-64 h-64 bg-space-accent rounded-full filter blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-600 rounded-full filter blur-3xl translate-x-1/2 translate-y-1/2"></div>
+        <div className="absolute top-20 left-10 w-64 h-64 bg-space-accent rounded-full filter blur-3xl animate-float-slow"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-600 rounded-full filter blur-3xl animate-float-slower"></div>
       </div>
       
       <div className="container mx-auto px-4 relative">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12 md:mb-16">
           <div className="appear-animation">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 inline-block relative">
-              Project <span className="text-space-accent">Showcase</span>
-              <span className="block h-1 w-1/3 bg-space-accent mt-2 mx-auto"></span>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 inline-block relative">
+              My <span className="text-space-accent">Projects</span>
+              <span className="block h-1 w-1/3 bg-gradient-to-r from-space-accent to-purple-600 mt-2 mx-auto"></span>
             </h2>
-            <p className="text-gray-300 max-w-2xl mx-auto">
-              A curated collection of my diverse work, from commercial websites to innovative web applications.
+            <p className="text-gray-300 max-w-2xl mx-auto text-sm md:text-base">
+              A showcase of my recent work, from commercial websites to innovative web applications.
             </p>
           </div>
         </div>
         
-        <div className="space-y-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project, index) => (
             <div 
               key={project.title}
-              className={`appear-animation ${project.featured ? 'w-full' : 'w-full md:w-2/3 lg:w-1/2'} ${index % 2 === 0 ? 'ml-0' : 'ml-auto'}`}
+              className="appear-animation"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className={`glass-card overflow-hidden h-full flex flex-col transition-all duration-500 hover:scale-[1.02] hover:shadow-lg hover:shadow-space-accent/20 ${project.featured ? 'border-2 border-space-accent/30' : 'border border-white/10'}`}>
-                <div className={`h-64 ${project.image} flex items-center justify-center p-6 relative group`}>
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-300"></div>
-                  <h3 className="text-2xl font-bold text-white relative z-10 text-center">
+              <div className={`relative h-full flex flex-col rounded-xl overflow-hidden border border-white/10 transition-all duration-300 hover:shadow-lg hover:shadow-space-accent/10 hover:border-space-accent/30 ${project.featured ? 'ring-2 ring-space-accent/50' : ''}`}>
+                {project.featured && (
+                  <div className="absolute top-3 left-3 z-10">
+                    <Badge className="flex items-center bg-gradient-to-r from-space-accent to-purple-600 text-white px-3 py-1 text-xs font-semibold">
+                      <Star size={14} className="mr-1" /> Featured
+                    </Badge>
+                  </div>
+                )}
+                
+                {/* Project image */}
+                <div className={`h-48 ${project.image} relative overflow-hidden`}>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70"></div>
+                  <h3 className="absolute bottom-4 left-4 text-xl font-bold text-white z-10">
                     {project.title}
-                    {project.featured && (
-                      <span className="block text-sm font-normal mt-2 text-space-accent">Featured Project</span>
-                    )}
                   </h3>
                 </div>
-                <div className="p-6 flex-grow flex flex-col">
-                  <p className="text-gray-300 mb-4 flex-grow">{project.description}</p>
-                  <div className="mb-6">
-                    <div className="flex flex-wrap gap-2">
+                
+                {/* Project content */}
+                <div className="p-5 flex-grow flex flex-col bg-gradient-to-b from-gray-900 to-gray-950">
+                  <p className="text-gray-300 text-sm mb-4">{project.description}</p>
+                  
+                  {/* Tech stack */}
+                  <div className="mt-auto">
+                    <div className="flex flex-wrap gap-2 mb-4">
                       {project.tech.map(tech => (
                         <span 
                           key={tech} 
@@ -157,28 +167,30 @@ const Projects: React.FC = () => {
                         </span>
                       ))}
                     </div>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <a 
-                      href={project.link} 
-                      className="inline-flex items-center text-space-accent hover:text-white transition-colors duration-300 group"
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                    >
-                      <span className="mr-2 group-hover:underline">Live Demo</span>
-                      <ExternalLink size={16} className="group-hover:translate-x-1 transition-transform" />
-                    </a>
-                    {project.github && (
+                    
+                    {/* Links */}
+                    <div className="flex justify-between items-center pt-2 border-t border-white/10">
                       <a 
-                        href={project.github} 
-                        className="text-gray-400 hover:text-white transition-colors duration-300 flex items-center group"
+                        href={project.link} 
+                        className="inline-flex items-center text-space-accent hover:text-white transition-colors duration-300 group text-sm"
                         target="_blank" 
                         rel="noopener noreferrer"
                       >
-                        <span className="mr-2 text-sm group-hover:underline">Code</span>
-                        <Github size={16} className="group-hover:scale-110 transition-transform" />
+                        <span className="mr-2 group-hover:underline">View Project</span>
+                        <ExternalLink size={16} className="group-hover:translate-x-1 transition-transform" />
                       </a>
-                    )}
+                      {project.github && (
+                        <a 
+                          href={project.github} 
+                          className="text-gray-400 hover:text-white transition-colors duration-300 flex items-center group text-sm"
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                        >
+                          <span className="mr-2 group-hover:underline">Code</span>
+                          <Github size={16} className="group-hover:scale-110 transition-transform" />
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
