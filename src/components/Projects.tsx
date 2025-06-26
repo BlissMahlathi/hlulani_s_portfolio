@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ExternalLink, Github } from 'lucide-react';
+import { ExternalLink, Github, Star } from 'lucide-react';
 
 interface Project {
   title: string;
@@ -107,78 +107,88 @@ const Projects: React.FC = () => {
   }, []);
   
   return (
-    <section id="projects" className="py-24 relative">
-      {/* Decorative background elements */}
+    <section id="projects" className="py-16 md:py-24 relative">
+      {/* Floating background elements */}
       <div className="absolute inset-0 overflow-hidden opacity-5 pointer-events-none">
-        <div className="absolute top-0 left-0 w-64 h-64 bg-space-accent rounded-full filter blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-600 rounded-full filter blur-3xl translate-x-1/2 translate-y-1/2"></div>
+        <div className="absolute top-20 left-10 w-64 h-64 bg-blue-600 rounded-full filter blur-3xl animate-float-slow"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-600 rounded-full filter blur-3xl animate-float-slower"></div>
       </div>
       
       <div className="container mx-auto px-4 relative">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12 md:mb-16">
           <div className="appear-animation">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 inline-block relative">
-              Project <span className="text-space-accent">Showcase</span>
-              <span className="block h-1 w-1/3 bg-space-accent mt-2 mx-auto"></span>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 inline-block relative">
+              My <span className="text-blue-500">Projects</span>
+              <span className="block h-1 w-1/3 bg-gradient-to-r from-blue-500 to-purple-600 mt-2 mx-auto"></span>
             </h2>
-            <p className="text-gray-300 max-w-2xl mx-auto">
-              A curated collection of my diverse work, from commercial websites to innovative web applications.
+            <p className="text-gray-300 max-w-2xl mx-auto text-sm md:text-base">
+              A showcase of my recent work, from commercial websites to innovative web applications.
             </p>
           </div>
         </div>
         
-        <div className="space-y-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project, index) => (
             <div 
               key={project.title}
-              className={`appear-animation ${project.featured ? 'w-full' : 'w-full md:w-2/3 lg:w-1/2'} ${index % 2 === 0 ? 'ml-0' : 'ml-auto'}`}
+              className="appear-animation"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className={`glass-card overflow-hidden h-full flex flex-col transition-all duration-500 hover:scale-[1.02] hover:shadow-lg hover:shadow-space-accent/20 ${project.featured ? 'border-2 border-space-accent/30' : 'border border-white/10'}`}>
-                <div className={`h-64 ${project.image} flex items-center justify-center p-6 relative group`}>
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-300"></div>
-                  <h3 className="text-2xl font-bold text-white relative z-10 text-center">
+              <div className={`relative h-full flex flex-col rounded-xl overflow-hidden border border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 hover:border-blue-500/30 ${project.featured ? 'ring-2 ring-blue-500/50' : ''}`}>
+                {project.featured && (
+                  <div className="absolute top-3 left-3 z-10 flex items-center bg-gradient-to-r from-blue-600 to-purple-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                    <Star size={14} className="mr-1" /> Featured
+                  </div>
+                )}
+                
+                {/* Project image */}
+                <div className={`h-48 ${project.image} relative overflow-hidden`}>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70"></div>
+                  <h3 className="absolute bottom-4 left-4 text-xl font-bold text-white z-10">
                     {project.title}
-                    {project.featured && (
-                      <span className="block text-sm font-normal mt-2 text-space-accent">Featured Project</span>
-                    )}
                   </h3>
                 </div>
-                <div className="p-6 flex-grow flex flex-col">
-                  <p className="text-gray-300 mb-4 flex-grow">{project.description}</p>
-                  <div className="mb-6">
-                    <div className="flex flex-wrap gap-2">
+                
+                {/* Project content */}
+                <div className="p-5 flex-grow flex flex-col bg-gray-900">
+                  <p className="text-gray-300 text-sm mb-4">{project.description}</p>
+                  
+                  {/* Tech stack */}
+                  <div className="mt-auto">
+                    <div className="flex flex-wrap gap-2 mb-4">
                       {project.tech.map(tech => (
                         <span 
                           key={tech} 
-                          className="inline-block px-3 py-1 text-xs bg-space-accent/10 text-space-accent rounded-full hover:bg-space-accent/20 transition-colors"
+                          className="inline-block px-3 py-1 text-xs bg-blue-500/10 text-blue-400 rounded-full hover:bg-blue-500/20 transition-colors"
                         >
                           {tech}
                         </span>
                       ))}
                     </div>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <a 
-                      href={project.link} 
-                      className="inline-flex items-center text-space-accent hover:text-white transition-colors duration-300 group"
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                    >
-                      <span className="mr-2 group-hover:underline">Live Demo</span>
-                      <ExternalLink size={16} className="group-hover:translate-x-1 transition-transform" />
-                    </a>
-                    {project.github && (
+                    
+                    {/* Links */}
+                    <div className="flex justify-between items-center pt-2 border-t border-gray-800">
                       <a 
-                        href={project.github} 
-                        className="text-gray-400 hover:text-white transition-colors duration-300 flex items-center group"
+                        href={project.link} 
+                        className="inline-flex items-center text-blue-400 hover:text-white transition-colors duration-300 group text-sm"
                         target="_blank" 
                         rel="noopener noreferrer"
                       >
-                        <span className="mr-2 text-sm group-hover:underline">Code</span>
-                        <Github size={16} className="group-hover:scale-110 transition-transform" />
+                        <span className="mr-2 group-hover:underline">View Project</span>
+                        <ExternalLink size={16} className="group-hover:translate-x-1 transition-transform" />
                       </a>
-                    )}
+                      {project.github && (
+                        <a 
+                          href={project.github} 
+                          className="text-gray-400 hover:text-white transition-colors duration-300 flex items-center group text-sm"
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                        >
+                          <span className="mr-2 group-hover:underline">Code</span>
+                          <Github size={16} className="group-hover:scale-110 transition-transform" />
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
