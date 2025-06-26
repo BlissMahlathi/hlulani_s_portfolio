@@ -110,7 +110,7 @@ const Projects: React.FC = () => {
     <section id="projects" className="py-16 md:py-24 relative">
       {/* Floating background elements */}
       <div className="absolute inset-0 overflow-hidden opacity-5 pointer-events-none">
-        <div className="absolute top-20 left-10 w-64 h-64 bg-space-accent rounded-full filter blur-3xl animate-float-slow"></div>
+        <div className="absolute top-20 left-10 w-64 h-64 bg-blue-600 rounded-full filter blur-3xl animate-float-slow"></div>
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-600 rounded-full filter blur-3xl animate-float-slower"></div>
       </div>
       
@@ -118,8 +118,8 @@ const Projects: React.FC = () => {
         <div className="text-center mb-12 md:mb-16">
           <div className="appear-animation">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 inline-block relative">
-              My <span className="text-space-accent">Projects</span>
-              <span className="block h-1 w-1/3 bg-gradient-to-r from-space-accent to-purple-600 mt-2 mx-auto"></span>
+              My <span className="text-blue-500">Projects</span>
+              <span className="block h-1 w-1/3 bg-gradient-to-r from-blue-500 to-purple-600 mt-2 mx-auto"></span>
             </h2>
             <p className="text-gray-300 max-w-2xl mx-auto text-sm md:text-base">
               A showcase of my recent work, from commercial websites to innovative web applications.
@@ -134,12 +134,10 @@ const Projects: React.FC = () => {
               className="appear-animation"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className={`relative h-full flex flex-col rounded-xl overflow-hidden border border-white/10 transition-all duration-300 hover:shadow-lg hover:shadow-space-accent/10 hover:border-space-accent/30 ${project.featured ? 'ring-2 ring-space-accent/50' : ''}`}>
+              <div className={`relative h-full flex flex-col rounded-xl overflow-hidden border border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 hover:border-blue-500/30 ${project.featured ? 'ring-2 ring-blue-500/50' : ''}`}>
                 {project.featured && (
-                  <div className="absolute top-3 left-3 z-10">
-                    <Badge className="flex items-center bg-gradient-to-r from-space-accent to-purple-600 text-white px-3 py-1 text-xs font-semibold">
-                      <Star size={14} className="mr-1" /> Featured
-                    </Badge>
+                  <div className="absolute top-3 left-3 z-10 flex items-center bg-gradient-to-r from-blue-600 to-purple-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                    <Star size={14} className="mr-1" /> Featured
                   </div>
                 )}
                 
@@ -152,7 +150,7 @@ const Projects: React.FC = () => {
                 </div>
                 
                 {/* Project content */}
-                <div className="p-5 flex-grow flex flex-col bg-gradient-to-b from-gray-900 to-gray-950">
+                <div className="p-5 flex-grow flex flex-col bg-gray-900">
                   <p className="text-gray-300 text-sm mb-4">{project.description}</p>
                   
                   {/* Tech stack */}
@@ -161,7 +159,7 @@ const Projects: React.FC = () => {
                       {project.tech.map(tech => (
                         <span 
                           key={tech} 
-                          className="inline-block px-3 py-1 text-xs bg-space-accent/10 text-space-accent rounded-full hover:bg-space-accent/20 transition-colors"
+                          className="inline-block px-3 py-1 text-xs bg-blue-500/10 text-blue-400 rounded-full hover:bg-blue-500/20 transition-colors"
                         >
                           {tech}
                         </span>
@@ -169,10 +167,10 @@ const Projects: React.FC = () => {
                     </div>
                     
                     {/* Links */}
-                    <div className="flex justify-between items-center pt-2 border-t border-white/10">
+                    <div className="flex justify-between items-center pt-2 border-t border-gray-800">
                       <a 
                         href={project.link} 
-                        className="inline-flex items-center text-space-accent hover:text-white transition-colors duration-300 group text-sm"
+                        className="inline-flex items-center text-blue-400 hover:text-white transition-colors duration-300 group text-sm"
                         target="_blank" 
                         rel="noopener noreferrer"
                       >
