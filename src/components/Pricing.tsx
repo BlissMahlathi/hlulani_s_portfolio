@@ -11,7 +11,8 @@ const PricingCard = ({
   features, 
   popular = false,
   ctaText = "Get Started",
-  completionTime
+  completionTime,
+  className = ""
 }: { 
   title: string; 
   priceRange: string;
@@ -20,9 +21,10 @@ const PricingCard = ({
   popular?: boolean;
   ctaText?: string;
   completionTime: string;
+  className?: string;
 }) => {
   return (
-    <Card className={`appear-animation cosmic-border h-full flex flex-col ${popular ? 'relative shadow-lg shadow-space-accent/20 border-space-accent/50' : 'glass'}`}>
+    <Card className={`appear-animation cosmic-border h-full flex flex-col ${popular ? 'relative shadow-lg shadow-space-accent/20 border-space-accent/50' : 'glass'} ${className}`}>
       {popular && (
         <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
           <Badge className="bg-space-accent text-white px-3 py-1 text-xs font-semibold">Most Popular</Badge>
@@ -62,8 +64,13 @@ const PricingCard = ({
 
 const Pricing = () => {
   return (
-    <section id="pricing" className="py-24">
-      <div className="container mx-auto px-4">
+    <section id="pricing" className="py-24 relative">
+      {/* Zig-zag pattern background */}
+      <div className="absolute inset-0 overflow-hidden opacity-10 pointer-events-none">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==')]"></div>
+      </div>
+      
+      <div className="container mx-auto px-4 relative">
         <div className="text-center mb-16 appear-animation">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 inline-block relative">
             Transparent <span className="text-space-accent">Pricing</span>
@@ -74,82 +81,99 @@ const Pricing = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-          <PricingCard 
-            title="Starter" 
-            priceRange="R2000 – R3500"
-            description="Ideal for individuals or small businesses needing an online presence"
-            features={[
-              "1–3 Pages (Home, About, Contact)",
-              "Mobile-friendly design",
-              "Contact form",
-              "Social media links",
-              "Basic SEO setup"
-            ]}
-            completionTime="3–5 days"
-          />
+        <div className="flex flex-col gap-12">
+          {/* Row 1 */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+            <div className="md:col-start-1">
+              <PricingCard 
+                title="Starter" 
+                priceRange="R2000 – R3500"
+                description="Ideal for individuals or small businesses needing an online presence"
+                features={[
+                  "1–3 Pages (Home, About, Contact)",
+                  "Mobile-friendly design",
+                  "Contact form",
+                  "Social media links",
+                  "Basic SEO setup"
+                ]}
+                completionTime="3–5 days"
+              />
+            </div>
+            <div className="md:col-start-3">
+              <PricingCard 
+                title="Standard" 
+                priceRange="R3600 – R5000"
+                description="Perfect for growing businesses needing more functionality"
+                popular={true}
+                features={[
+                  "4–6 Pages",
+                  "Custom design",
+                  "Blog/News section",
+                  "Booking/contact forms",
+                  "Google Maps integration",
+                  "Enhanced SEO"
+                ]}
+                completionTime="5–7 days"
+              />
+            </div>
+          </div>
           
-          <PricingCard 
-            title="Standard" 
-            priceRange="R3600 – R5000"
-            description="Perfect for growing businesses needing more functionality"
-            popular={true}
-            features={[
-              "4–6 Pages",
-              "Custom design",
-              "Blog/News section",
-              "Booking/contact forms",
-              "Google Maps integration",
-              "Enhanced SEO"
-            ]}
-            completionTime="5–7 days"
-          />
+          {/* Row 2 */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+            <div className="md:col-start-2">
+              <PricingCard 
+                title="Advanced" 
+                priceRange="R5000 – R7500"
+                description="Designed for businesses needing dynamic features"
+                features={[
+                  "7–10 Pages",
+                  "User registration/login",
+                  "Image galleries",
+                  "WhatsApp/Live chat",
+                  "Newsletter setup",
+                  "Basic CMS for self-editing"
+                ]}
+                completionTime="7–10 days"
+              />
+            </div>
+          </div>
           
-          <PricingCard 
-            title="Advanced" 
-            priceRange="R5000 – R7500"
-            description="Designed for businesses needing dynamic features"
-            features={[
-              "7–10 Pages",
-              "User registration/login",
-              "Image galleries",
-              "WhatsApp/Live chat",
-              "Newsletter setup",
-              "Basic CMS for self-editing"
-            ]}
-            completionTime="7–10 days"
-          />
-          
-          <PricingCard 
-            title="Premium" 
-            priceRange="R8000 – R12000"
-            description="For businesses ready to scale"
-            features={[
-              "10+ Pages",
-              "E-commerce functionality",
-              "Product management",
-              "Secure online payments",
-              "Admin dashboard (optional)",
-              "Advanced analytics"
-            ]}
-            completionTime="10–15 days"
-          />
-          
-          <PricingCard 
-            title="Custom Solutions" 
-            priceRange="Starting from R12,000+"
-            description="Tailored systems built to your exact requirements"
-            ctaText="Get a Quote"
-            features={[
-              "Web apps / Booking systems",
-              "Multi-vendor e-commerce",
-              "Membership platforms",
-              "CRM integrations",
-              "API development",
-              "Custom dashboards"
-            ]}
-            completionTime="Consultation required"
-          />
+          {/* Row 3 */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+            <div className="md:col-start-1">
+              <PricingCard 
+                title="Premium" 
+                priceRange="R8000 – R12000"
+                description="For businesses ready to scale"
+                features={[
+                  "10+ Pages",
+                  "E-commerce functionality",
+                  "Product management",
+                  "Secure online payments",
+                  "Admin dashboard (optional)",
+                  "Advanced analytics"
+                ]}
+                completionTime="10–15 days"
+              />
+            </div>
+            <div className="md:col-start-3">
+              <PricingCard 
+                title="Custom Solutions" 
+                priceRange="Starting from R12,000+"
+                description="Tailored systems built to your exact requirements"
+                ctaText="Get a Quote"
+                features={[
+                  "Web apps / Booking systems",
+                  "Multi-vendor e-commerce",
+                  "Membership platforms",
+                  "CRM integrations",
+                  "API development",
+                  "Custom dashboards"
+                ]}
+                completionTime="Consultation required"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>
