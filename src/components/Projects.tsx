@@ -46,7 +46,14 @@ const Projects: React.FC = () => {
       description: 'A comprehensive showcase platform for hotel services with booking features and virtual tours.',
       tech: ['React', 'Node.js', 'Express', 'MongoDB'],
       image: 'bg-gradient-to-br from-blue-500/30 to-purple-600/30',
-      link: '#'
+      link: 'https://bnb-hotely.onrender.com/'
+    },
+    {
+      title: 'Campus Eats Online Store',
+      description: 'A comprehensive showcase platform for hotel services with booking features and virtual tours.',
+      tech: ['React', 'Node.js', 'Supabase', 'SQL','TypeScript',],
+      image: 'bg-gradient-to-br from-blue-500/30 to-purple-600/30',
+      link: 'https://campus-eats-five.vercel.app/'
     }
   ];
   
