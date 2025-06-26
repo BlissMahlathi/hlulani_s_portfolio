@@ -65,7 +65,7 @@ const PricingCard = ({
           </div>
           <CardFooter className="p-0">
             <a href="#contact" className="w-full">
-              <Button className={`w-full text-sm h-9 ${popular ? 'bg-space-accent hover:bg-space-accent/90' : 'bg-white/5 hover:bg-white/50'}`}>
+              <Button className={`w-full text-sm h-9 ${popular ? 'bg-space-accent hover:bg-space-accent/90' : 'bg-white/50 hover:bg-white/40'}`}>
                 {ctaText}
               </Button>
             </a>
