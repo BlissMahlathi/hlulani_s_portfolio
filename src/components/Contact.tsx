@@ -33,7 +33,6 @@ const Contact: React.FC = () => {
     };
   }, []);
 
-  
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -45,14 +44,12 @@ const Contact: React.FC = () => {
   const [isSending, setIsSending] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  
   const saveToLocalStorage = () => {
     try {
       const submissions = JSON.parse(
@@ -68,7 +65,6 @@ const Contact: React.FC = () => {
     }
   };
 
-  
   const sendEmail = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSending(true);
@@ -76,10 +72,10 @@ const Contact: React.FC = () => {
 
     try {
       saveToLocalStorage();
-      
+
       await emailjs.send(
-        "service_aj6gldg", 
-        "template_2hrl3bb", 
+        "service_aj6gldg",
+        "template_2hrl3bb",
         {
           from_name: formData.name,
           from_email: formData.email,
@@ -87,7 +83,7 @@ const Contact: React.FC = () => {
           subject: formData.subject,
           message: formData.message,
         },
-        "jwAocflEQAnOt0cJQ" 
+        "jwAocflEQAnOt0cJQ"
       );
 
       setSuccess(true);
@@ -262,6 +258,8 @@ const Contact: React.FC = () => {
                     href="https://github.com/"
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label="GitHub"
+                    title="GitHub"
                   >
                     <Github size={22} />
                   </a>
@@ -269,6 +267,8 @@ const Contact: React.FC = () => {
                     href="https://linkedin.com/hlulani mahlathi"
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label="LinkedIn"
+                    title="LinkedIn"
                   >
                     <Linkedin size={22} />
                   </a>
@@ -276,10 +276,20 @@ const Contact: React.FC = () => {
                     href="https://www.facebook.com/bliss.mahlathi.9/"
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label="Facebook"
+                    title="Facebook"
                   >
                     <Facebook size={22} />
                   </a>
                 </div>
+              </div>
+              <div className="mt-6 text-center">
+                <a
+                  href="mailto:blissmahlathi37@gmail.com?subject=Free%20consultation%20request"
+                  className="inline-flex items-center px-4 py-2 bg-space-accent/90 text-white rounded-lg hover:bg-space-accent transition-colors"
+                >
+                  Book a free consultation
+                </a>
               </div>
             </div>
           </div>
