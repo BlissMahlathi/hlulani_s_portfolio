@@ -1,37 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { Mail, Github, Linkedin, Facebook, Phone } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  Mail,
+  Github,
+  Linkedin,
+  Facebook,
+  Phone,
+  Loader2,
+  Send,
+} from "lucide-react";
+import emailjs from "@emailjs/browser";
 import { useToast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import emailjs from "emailjs-com";
 
 const Contact: React.FC = () => {
   const { toast } = useToast();
-  const formRef = React.useRef<HTMLFormElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    document.querySelectorAll(".appear-animation").forEach((el) => {
-      observer.observe(el);
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -44,16 +30,38 @@ const Contact: React.FC = () => {
   const [isSending, setIsSending] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  // Intersection Observer for Scroll Animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
+
+    document.querySelectorAll(".appear-animation").forEach((el) => {
+      observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
+    if (success) setSuccess(false);
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
   const saveToLocalStorage = () => {
     try {
       const submissions = JSON.parse(
-        localStorage.getItem("contactSubmissions") || "[]"
+        localStorage.getItem("contactSubmissions") || "[]",
       );
       submissions.push({
         ...formData,
@@ -83,7 +91,7 @@ const Contact: React.FC = () => {
           subject: formData.subject,
           message: formData.message,
         },
-        "jwAocflEQAnOt0cJQ"
+        "jwAocflEQAnOt0cJQ",
       );
 
       setSuccess(true);
@@ -101,38 +109,48 @@ const Contact: React.FC = () => {
           "There was an error sending your message. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setIsSending(false);
     }
-
-    setIsSending(false);
   };
 
   return (
-    <section id="contact" className="py-24">
-      <div className="container mx-auto px-4">
+    <section id="contact" className="py-20 md:py-28 relative overflow-hidden">
+      <div className="container mx-auto px-4 max-w-7xl">
+        {/* Header */}
         <div className="appear-animation text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 inline-block relative">
-            Get In <span className="text-space-accent">Touch</span>
-            <span className="block h-1 w-1/3 bg-space-accent mt-2 mx-auto"></span>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 inline-block relative tracking-tight text-white">
+            Get In <span className="text-blue-500">Touch</span>
+            <span className="block h-1 w-1/2 bg-blue-500 mt-2 mx-auto rounded-full" />
           </h2>
-          <p className="text-gray-300 max-w-2xl mx-auto">
-            Have a project in mind or just want to chat? I'm always open to
-            discussing new opportunities and ideas.
+          <p className="text-gray-300 max-w-2xl mx-auto text-sm md:text-base">
+            Have a project in mind, need software architecture guidance, or just
+            want to chat? I'm always open to discussing new opportunities and
+            ideas.
           </p>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-12">
-          <div className="appear-animation lg:w-1/2 glass p-8 rounded-xl cosmic-border">
-            <h3 className="text-2xl font-bold mb-6">Send Me a Message</h3>
-            <form ref={formRef} onSubmit={sendEmail} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Content Layout */}
+        <div className="flex flex-col lg:flex-row gap-10">
+          {/* Form Side */}
+          <div className="appear-animation lg:w-1/2 bg-white/[0.02] border border-white/10 backdrop-blur-md p-6 sm:p-8 rounded-2xl shadow-xl">
+            <h3 className="text-2xl font-bold text-white mb-6">
+              Send Me a Message
+            </h3>
+
+            <form ref={formRef} onSubmit={sendEmail} className="space-y-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <Label htmlFor="name" className="text-gray-300">
+                  <Label
+                    htmlFor="name"
+                    className="text-gray-300 text-xs font-semibold mb-1.5 block"
+                  >
                     Name
                   </Label>
                   <Input
                     type="text"
                     id="name"
-                    className="bg-white/5 border-white/10 text-white focus:ring-space-accent/50"
+                    className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:ring-blue-500 focus:border-blue-500 rounded-xl"
                     placeholder="Your name"
                     onChange={handleChange}
                     value={formData.name}
@@ -140,13 +158,16 @@ const Contact: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="email" className="text-gray-300">
+                  <Label
+                    htmlFor="email"
+                    className="text-gray-300 text-xs font-semibold mb-1.5 block"
+                  >
                     Email
                   </Label>
                   <Input
                     type="email"
                     id="email"
-                    className="bg-white/5 border-white/10 text-white focus:ring-space-accent/50"
+                    className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:ring-blue-500 focus:border-blue-500 rounded-xl"
                     placeholder="your.email@example.com"
                     onChange={handleChange}
                     value={formData.email}
@@ -156,27 +177,33 @@ const Contact: React.FC = () => {
               </div>
 
               <div>
-                <Label htmlFor="phone" className="text-gray-300">
-                  Phone Number
+                <Label
+                  htmlFor="phone"
+                  className="text-gray-300 text-xs font-semibold mb-1.5 block"
+                >
+                  Phone Number (Optional)
                 </Label>
                 <Input
                   type="tel"
                   id="phone"
-                  className="bg-white/5 border-white/10 text-white focus:ring-space-accent/50"
-                  placeholder="+27 XX XXX XXXX"
+                  className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:ring-blue-500 focus:border-blue-500 rounded-xl"
+                  placeholder="+27 71 523 1720"
                   onChange={handleChange}
                   value={formData.phone}
                 />
               </div>
 
               <div>
-                <Label htmlFor="subject" className="text-gray-300">
+                <Label
+                  htmlFor="subject"
+                  className="text-gray-300 text-xs font-semibold mb-1.5 block"
+                >
                   Subject
                 </Label>
                 <Input
                   type="text"
                   id="subject"
-                  className="bg-white/5 border-white/10 text-white focus:ring-space-accent/50"
+                  className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:ring-blue-500 focus:border-blue-500 rounded-xl"
                   placeholder="What is this regarding?"
                   onChange={handleChange}
                   value={formData.subject}
@@ -185,13 +212,16 @@ const Contact: React.FC = () => {
               </div>
 
               <div>
-                <Label htmlFor="message" className="text-gray-300">
+                <Label
+                  htmlFor="message"
+                  className="text-gray-300 text-xs font-semibold mb-1.5 block"
+                >
                   Message
                 </Label>
                 <Textarea
                   id="message"
                   rows={5}
-                  className="bg-white/5 border-white/10 text-white focus:ring-space-accent/50"
+                  className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:ring-blue-500 focus:border-blue-500 rounded-xl resize-none"
                   placeholder="Your message here..."
                   onChange={handleChange}
                   value={formData.message}
@@ -201,92 +231,119 @@ const Contact: React.FC = () => {
 
               <Button
                 type="submit"
-                className="cosmic-border glass text-white hover:bg-space-accent/20"
+                className="w-full sm:w-auto bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-2.5 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2"
                 disabled={isSending}
               >
-                <Mail size={18} className="mr-2" />
-                {isSending ? "Sending..." : "Send Message"}
+                {isSending ? (
+                  <>
+                    <Loader2 size={18} className="animate-spin" />
+                    <span>Sending...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send size={18} />
+                    <span>Send Message</span>
+                  </>
+                )}
               </Button>
 
               {success && (
-                <p className="text-green-400 mt-4">
-                  Message sent successfully!
+                <p className="text-emerald-400 text-sm mt-3 font-medium">
+                  ✓ Message sent successfully! I will reply shortly.
                 </p>
               )}
             </form>
           </div>
 
-          <div className="appear-animation lg:w-1/2">
-            <div className="glass p-8 rounded-xl cosmic-border h-full">
-              <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
-              <p className="text-gray-300 mb-8">
-                Feel free to reach out through any of the channels below. I'll
-                get back to you as soon as possible.
+          {/* Contact Details Side */}
+          <div className="appear-animation lg:w-1/2 flex flex-col justify-between bg-white/[0.02] border border-white/10 backdrop-blur-md p-6 sm:p-8 rounded-2xl shadow-xl">
+            <div>
+              <h3 className="text-2xl font-bold text-white mb-4">
+                Contact Information
+              </h3>
+              <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-8">
+                Feel free to reach out through any of the channels below or book
+                a direct request.
               </p>
 
               <div className="space-y-6">
-                <div className="flex items-start">
-                  <Mail className="text-space-accent mr-4 flex-shrink-0" />
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400">
+                    <Mail size={20} />
+                  </div>
                   <div>
-                    <h4 className="text-lg font-medium mb-1">Email</h4>
+                    <h4 className="text-xs uppercase tracking-wider font-semibold text-gray-400 mb-0.5">
+                      Email
+                    </h4>
                     <a
                       href="mailto:blissmahlathi37@gmail.com"
-                      className="text-gray-300 hover:text-white transition-colors duration-300"
+                      className="text-white hover:text-blue-400 font-medium transition-colors"
                     >
                       blissmahlathi37@gmail.com
                     </a>
                   </div>
                 </div>
-                <div className="flex items-start">
-                  <Phone className="text-space-accent mr-4 flex-shrink-0" />
+
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400">
+                    <Phone size={20} />
+                  </div>
                   <div>
-                    <h4 className="text-lg font-medium mb-1">Phone</h4>
+                    <h4 className="text-xs uppercase tracking-wider font-semibold text-gray-400 mb-0.5">
+                      Phone
+                    </h4>
                     <a
                       href="tel:+27715231720"
-                      className="text-gray-300 hover:text-white transition-colors duration-300"
+                      className="text-white hover:text-blue-400 font-medium transition-colors"
                     >
                       +27 71 523 1720
                     </a>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div className="pt-6 border-t border-white/10">
-                <h4 className="text-lg font-medium mb-4">Connect with me</h4>
-                <div className="flex space-x-4">
+            {/* Social Links & CTA */}
+            <div className="pt-8 mt-8 border-t border-white/10 space-y-6">
+              <div>
+                <h4 className="text-xs uppercase tracking-wider font-semibold text-gray-400 mb-3">
+                  Connect With Me
+                </h4>
+                <div className="flex gap-3">
                   <a
-                    href="https://github.com/"
+                    href="https://github.com/BlissMahlathi"
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label="GitHub"
-                    title="GitHub"
+                    aria-label="GitHub Profile"
+                    className="p-3 rounded-xl bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 transition-colors"
                   >
-                    <Github size={22} />
+                    <Github size={20} />
                   </a>
                   <a
-                    href="https://linkedin.com/hlulani mahlathi"
+                    href="https://www.linkedin.com/in/hlulani-mahlathi"
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label="LinkedIn"
-                    title="LinkedIn"
+                    aria-label="LinkedIn Profile"
+                    className="p-3 rounded-xl bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 transition-colors"
                   >
-                    <Linkedin size={22} />
+                    <Linkedin size={20} />
                   </a>
                   <a
                     href="https://www.facebook.com/bliss.mahlathi.9/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label="Facebook"
-                    title="Facebook"
+                    aria-label="Facebook Profile"
+                    className="p-3 rounded-xl bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 transition-colors"
                   >
-                    <Facebook size={22} />
+                    <Facebook size={20} />
                   </a>
                 </div>
               </div>
-              <div className="mt-6 text-center">
+
+              <div>
                 <a
                   href="mailto:blissmahlathi37@gmail.com?subject=Free%20consultation%20request"
-                  className="inline-flex items-center px-4 py-2 bg-space-accent/90 text-white rounded-lg hover:bg-space-accent transition-colors"
+                  className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-3 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 font-semibold rounded-xl text-sm transition-colors"
                 >
                   Book a free consultation
                 </a>

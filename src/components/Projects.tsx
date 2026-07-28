@@ -1,246 +1,331 @@
-import React, { useEffect, useState } from "react";
-import { ExternalLink, Github, Star } from "lucide-react";
+import React, { useEffect, useState, useMemo } from "react";
+import { ExternalLink, Github, Star, X, Filter } from "lucide-react";
 
 interface Project {
   title: string;
   description: string;
   tech: string[];
-  image: string;
+  category:
+    | "e-commerce"
+    | "health"
+    | "logistics"
+    | "community"
+    | "portfolio"
+    | "other";
+  imageGradient: string;
   link: string;
   github?: string;
   featured?: boolean;
   impact?: string[];
+  status?: string;
 }
+
+const ALL_PROJECTS: Project[] = [
+  // Commercial & E-Commerce
+  {
+    title: "Snack City",
+    description:
+      "Online store dedicated to ordering and purchasing snacks with automated shopping features.",
+    tech: ["Cloudflare Workers", "JavaScript", "HTML/CSS"],
+    category: "e-commerce",
+    imageGradient: "from-amber-500/20 to-yellow-600/20",
+    link: "https://snackcity.marketstore.workers.dev/",
+  },
+  {
+    title: "Ramvees Food Booking",
+    description:
+      "E-commerce platform allowing customers to order food directly via WhatsApp integration.",
+    tech: ["Cloudflare Workers", "JavaScript", "WhatsApp API"],
+    category: "e-commerce",
+    imageGradient: "from-orange-500/20 to-red-600/20",
+    link: "https://ramvees.marketstore.workers.dev/",
+  },
+  {
+    title: "InHim Store",
+    description:
+      "Online retail storefront supporting general product catalog and digital checkout.",
+    tech: ["React", "Tailwind CSS", "Netlify"],
+    category: "e-commerce",
+    imageGradient: "from-emerald-500/20 to-teal-600/20",
+    link: "https://inhimstore.netlify.app/",
+    status: "Under Development",
+  },
+  {
+    title: "Gaza Market",
+    description:
+      "Multi-vendor business marketplace platform for local merchants to list products.",
+    tech: ["React", "Vercel", "Tailwind CSS"],
+    category: "e-commerce",
+    imageGradient: "from-purple-500/20 to-pink-600/20",
+    link: "https://gazamarket.vercel.app/",
+    featured: true,
+    status: "Under Development",
+  },
+  {
+    title: "Campus Eats",
+    description:
+      "Food delivery platform tailored for campus students with streamlined ordering.",
+    tech: ["React", "Node.js", "Supabase", "TypeScript"],
+    category: "e-commerce",
+    imageGradient: "from-green-500/20 to-emerald-700/20",
+    link: "https://campus-eats-five.vercel.app/",
+  },
+
+  // Healthcare & Business Services
+  {
+    title: "Hlulani Medical Centre",
+    description:
+      "Healthcare portal showcasing clinical services, doctor consultation schedules, and inquiries.",
+    tech: ["Cloudflare Workers", "JavaScript", "HTML/CSS"],
+    category: "health",
+    imageGradient: "from-cyan-500/20 to-blue-600/20",
+    link: "https://hlulanimedicalcentre.marketstore.workers.dev/",
+    featured: true,
+  },
+  {
+    title: "Selamolela Steel Work",
+    description:
+      "Showcase portal for steel crafting, metal fabrication services, and project quotes.",
+    tech: ["Cloudflare Workers", "JavaScript", "CSS"],
+    category: "other",
+    imageGradient: "from-slate-600/20 to-zinc-800/20",
+    link: "https://selamolela-steel.marketstore.workers.dev/",
+  },
+  {
+    title: "Vutomi Trading",
+    description:
+      "Corporate website for a logistics and supply chain enterprise.",
+    tech: ["React", "Tailwind CSS"],
+    category: "logistics",
+    imageGradient: "from-blue-600/20 to-indigo-800/20",
+    link: "https://vutomitrading.com/",
+  },
+  {
+    title: "InHim Trading",
+    description:
+      "Official enterprise web platform for general trade, supplies, and business solutions.",
+    tech: ["React", "Tailwind CSS"],
+    category: "other",
+    imageGradient: "from-cyan-600/20 to-blue-800/20",
+    link: "https://inhimtrading.com/",
+  },
+
+  // Logistics & Agri-Tech
+  {
+    title: "Campus Cart Hub",
+    description:
+      "Ride-sharing and transport coordination platform designed specifically for campus students.",
+    tech: ["React", "Netlify", "Tailwind CSS"],
+    category: "logistics",
+    imageGradient: "from-blue-500/20 to-cyan-600/20",
+    link: "https://campuscarthub.netlify.app/",
+  },
+  {
+    title: "InHim Farm",
+    description:
+      "Web presence for agricultural products, produce listings, and farm management.",
+    tech: ["React", "Netlify"],
+    category: "other",
+    imageGradient: "from-lime-600/20 to-green-800/20",
+    link: "https://inhimfarm.netlify.app/",
+  },
+  {
+    title: "InHim AgriTech",
+    description:
+      "Agri-technology site highlighting modern farming techniques and digital solutions.",
+    tech: ["React", "Tailwind CSS"],
+    category: "other",
+    imageGradient: "from-emerald-600/20 to-teal-800/20",
+    link: "https://inhimagritech.netlify.app/",
+  },
+
+  // Social & Education
+  {
+    title: "CWhisper Social",
+    description:
+      "Community platform enabling real-time conversations, posts, and social interactions.",
+    tech: ["React", "Node.js", "Socket.io"],
+    category: "community",
+    imageGradient: "from-indigo-500/20 to-purple-600/20",
+    link: "https://cwhisper.netlify.app/",
+    featured: true,
+  },
+  {
+    title: "Tasha Glamour Training",
+    description:
+      "Educational portal and course booking platform for beauty and nail styling academies.",
+    tech: ["HTML5", "CSS3", "JavaScript"],
+    category: "other",
+    imageGradient: "from-pink-500/20 to-rose-600/20",
+    link: "https://tashaglamourtraining.netlify.app/",
+  },
+  {
+    title: "MKSibei Branding & Printing",
+    description:
+      "Agency site for custom design, digital printing, flyers, and brand identity projects.",
+    tech: ["React", "Netlify"],
+    category: "other",
+    imageGradient: "from-violet-500/20 to-purple-700/20",
+    link: "https://mksibei.netlify.app/",
+  },
+
+  // Portfolios
+  {
+    title: "Hlulani Bliss Mahlathi Portfolio",
+    description:
+      "Personal developer portfolio displaying professional engineering projects and skillsets.",
+    tech: ["React", "Vercel", "Tailwind CSS"],
+    category: "portfolio",
+    imageGradient: "from-blue-600/20 to-indigo-900/20",
+    link: "https://hlulaniblissmahlathi.vercel.app/",
+  },
+];
+
+const CATEGORIES = [
+  { id: "all", label: "All Projects" },
+  { id: "e-commerce", label: "E-Commerce" },
+  { id: "health", label: "Healthcare" },
+  { id: "logistics", label: "Logistics & Transport" },
+  { id: "community", label: "Community & Social" },
+  { id: "portfolio", label: "Portfolios" },
+  { id: "other", label: "Services & Other" },
+];
 
 const Projects: React.FC = () => {
   const [selected, setSelected] = useState<Project | null>(null);
-  const projects: Project[] = [
-    {
-      title: "Passion Mogale Borehole Drilling",
-      description:
-        "Professional website for a borehole drilling company showcasing services, projects and contact information.",
-      tech: ["HTML/CSS", "JavaScript", "Netlify"],
-      image: "bg-gradient-to-br from-blue-600/20 to-blue-900/20",
-      link: "https://passionmogale.netlify.app",
-      featured: true,
-      impact: ["Visitors / month: —"],
-    },
-    {
-      title: "Health Center Service Portal",
-      description:
-        "Healthcare service booking system with appointment management and patient portal.",
-      tech: ["Django", "Python", "PostgreSQL"],
-      image: "bg-gradient-to-br from-cyan-500/20 to-blue-600/20",
-      link: "https://test-tau-green-64.vercel.app/",
-      impact: ["Bookings / month: —"],
-    },
-    {
-      title: "OGT Student Residence",
-      description:
-        "Modern website for student accommodation with booking system and virtual tours.",
-      tech: ["React", "CSS3", "Netlify"],
-      image: "bg-gradient-to-br from-purple-500/20 to-indigo-600/20",
-      link: "https://ogtresidence.netlify.app",
-      impact: ["Bookings / month: —"],
-    },
-    {
-      title: "Student Social Network",
-      description:
-        "Platform connecting students for collaboration, resource sharing, and community building.",
-      tech: ["MERN Stack", "Socket.io", "AWS"],
-      image: "bg-gradient-to-br from-green-500/20 to-teal-600/20",
-      link: "https://univensocials.vercel.app/",
-      featured: true,
-      impact: ["Active users: —"],
-    },
-    {
-      title: "Retema Student Accommodation",
-      description:
-        "Elegant website for student housing with gallery, amenities showcase and contact form.",
-      tech: ["HTML5", "CSS3", "JavaScript"],
-      image: "bg-gradient-to-br from-amber-500/20 to-orange-600/20",
-      link: "https://retema.netlify.app",
-    },
-    {
-      title: "Pizza Delivery WebApp",
-      description:
-        "Order system with WhatsApp integration for seamless food ordering and delivery tracking.",
-      tech: ["JavaScript", "HTML/CSS", "WhatsApp API"],
-      image: "bg-gradient-to-br from-red-500/20 to-pink-600/20",
-      link: "https://danalphluja.vercel.app/",
-      impact: ["Orders / month: —"],
-    },
-    {
-      title: "Hacking Alert Prank",
-      description:
-        "Fun cybersecurity prank page that simulates a system breach with realistic effects.",
-      tech: ["JavaScript", "HTML/CSS", "Animations"],
-      image: "bg-gradient-to-br from-gray-700/20 to-black/20",
-      link: "https://delicate-concha-2e8ec5.netlify.app",
-      featured: true,
-      impact: ["Traffic: —"],
-    },
-    {
-      title: "E-Commerce Platform",
-      description:
-        "Small-scale e-commerce solution for artisanal products with payment processing.",
-      tech: ["Flask", "SQLite", "Stripe API"],
-      image: "bg-gradient-to-br from-yellow-500/20 to-amber-600/20",
-      link: "https://phenomenal-torte-764818.netlify.app/",
-    },
-    {
-      title: "HotelY Services Platform",
-      description:
-        "Comprehensive showcase platform for hotel services with booking features and virtual tours.",
-      tech: ["React", "Node.js", "Express", "MongoDB"],
-      image: "bg-gradient-to-br from-blue-500/20 to-purple-600/20",
-      link: "https://bnb-hotely.onrender.com/",
-    },
-    {
-      title: "Campus Eats Online Store",
-      description:
-        "Food delivery platform for campus students with menu customization and payment integration.",
-      tech: ["React", "Node.js", "Supabase", "TypeScript"],
-      image: "bg-gradient-to-br from-emerald-500/20 to-green-600/20",
-      link: "https://campus-eats-five.vercel.app/",
-      impact: ["Daily orders: —"],
-    },
-  ];
+  const [activeCategory, setActiveCategory] = useState<string>("all");
 
+  const filteredProjects = useMemo(() => {
+    if (activeCategory === "all") return ALL_PROJECTS;
+    return ALL_PROJECTS.filter((p) => p.category === activeCategory);
+  }, [activeCategory]);
+
+  // Lock body scroll when modal is active
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    document.querySelectorAll(".appear-animation").forEach((el) => {
-      observer.observe(el);
-    });
-
+    if (selected) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
     return () => {
-      observer.disconnect();
+      document.body.style.overflow = "unset";
     };
+  }, [selected]);
+
+  // Handle escape key for closing modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelected(null);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   return (
-    <section id="projects" className="py-16 md:py-24 relative">
-      {/* Floating background elements */}
-      <div className="absolute inset-0 overflow-hidden opacity-5 pointer-events-none">
-        <div className="absolute top-20 left-10 w-64 h-64 bg-blue-600 rounded-full filter blur-3xl animate-float-slow"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-600 rounded-full filter blur-3xl animate-float-slower"></div>
-      </div>
-
-      <div className="container mx-auto px-4 relative">
-        <div className="text-center mb-12 md:mb-16">
-          <div className="appear-animation">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 inline-block relative">
-              My <span className="text-blue-500">Projects</span>
-              <span className="block h-1 w-1/3 bg-gradient-to-r from-blue-500 to-purple-600 mt-2 mx-auto"></span>
-            </h2>
-            <p className="text-gray-300 max-w-2xl mx-auto text-sm md:text-base">
-              A showcase of my recent work, from commercial websites to
-              innovative web applications.
-            </p>
-          </div>
+    <section id="projects" className="py-16 md:py-24 relative overflow-hidden">
+      <div className="container mx-auto px-4 relative z-10 max-w-7xl">
+        {/* Title Block */}
+        <div className="text-center mb-10">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight text-white">
+            My <span className="text-blue-500">Projects</span>
+          </h2>
+          <p className="text-gray-300 max-w-2xl mx-auto text-sm md:text-base">
+            A comprehensive showcase of commercial systems, client web
+            applications, and live products built by me.
+          </p>
         </div>
 
+        {/* Category Filters */}
+        <div className="flex items-center justify-center gap-2 flex-wrap mb-10">
+          <Filter size={16} className="text-gray-400 mr-2 hidden sm:block" />
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id)}
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 ${
+                activeCategory === cat.id
+                  ? "bg-blue-600 text-white shadow-lg shadow-blue-500/25 scale-105"
+                  : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10"
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Project Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project, index) => (
-            <div key={project.title} className="appear-animation">
-              <div
-                className={`relative h-full flex flex-col rounded-xl overflow-hidden border border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 hover:border-blue-500/30 glass-card ${
-                  project.featured ? "ring-2 ring-blue-500/50" : ""
-                }`}
-              >
+          {filteredProjects.map((project) => (
+            <div
+              key={project.title}
+              className={`relative flex flex-col rounded-2xl overflow-hidden border border-white/10 bg-white/[0.02] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10 hover:border-blue-500/40 group ${
+                project.featured ? "ring-1 ring-blue-500/50" : ""
+              }`}
+            >
+              {/* Badges */}
+              <div className="absolute top-3 left-3 z-10 flex gap-2">
                 {project.featured && (
-                  <div className="absolute top-3 left-3 z-10 flex items-center bg-gradient-to-r from-blue-600 to-purple-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
-                    <Star size={14} className="mr-1" /> Featured
-                  </div>
+                  <span className="flex items-center bg-blue-600 text-white px-2.5 py-1 rounded-full text-xs font-semibold shadow-md">
+                    <Star size={12} className="mr-1 fill-white" /> Featured
+                  </span>
                 )}
-                {project.impact && project.impact.length > 0 && (
-                  <div className="absolute top-3 right-3 z-10 flex items-center bg-white/5 text-white/90 px-3 py-1 rounded-full text-xs font-semibold">
-                    {project.impact[0]}
-                  </div>
+                {project.status && (
+                  <span className="bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2.5 py-1 rounded-full text-xs font-medium backdrop-blur-sm">
+                    {project.status}
+                  </span>
                 )}
+              </div>
 
-                {/* Project image */}
-                <div
-                  className={`h-48 ${project.image} relative overflow-hidden`}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70"></div>
-                  <h3 className="absolute bottom-4 left-4 text-xl font-bold text-white z-10">
-                    {project.title}
-                  </h3>
-                </div>
+              {/* Header Visual */}
+              <div
+                className={`h-40 bg-gradient-to-br ${project.imageGradient} relative p-6 flex items-end overflow-hidden`}
+              >
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                <h3 className="text-xl font-bold text-white z-10 tracking-wide group-hover:text-blue-400 transition-colors">
+                  {project.title}
+                </h3>
+              </div>
 
-                {/* Project content */}
-                <div className="p-5 flex-grow flex flex-col bg-transparent">
-                  <p className="text-gray-300 text-sm mb-4">
-                    {project.description}
-                  </p>
-                  {/* Impact / Results */}
-                  {project.impact && project.impact.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {project.impact.map((m, mi) => (
-                        <span
-                          key={mi}
-                          className="inline-block px-3 py-1 text-xs bg-space-accent/10 text-space-accent rounded-full"
-                        >
-                          {m}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                  {/* Tech stack */}
-                  <div className="mt-auto">
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {project.tech.map((tech) => (
-                        <span
-                          key={tech}
-                          className="inline-block px-3 py-1 text-xs bg-blue-500/10 text-blue-400 rounded-full hover:bg-blue-500/20 transition-colors"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
+              {/* Body */}
+              <div className="p-5 flex-grow flex flex-col">
+                <p className="text-gray-300 text-sm mb-4 line-clamp-3">
+                  {project.description}
+                </p>
 
-                    {/* Links */}
-                    <div className="flex justify-between items-center pt-2 border-t border-gray-800">
-                      <button
-                        onClick={() => setSelected(project)}
-                        className="inline-flex items-center text-blue-400 hover:text-white transition-colors duration-300 group text-sm"
+                {/* Tech Badges */}
+                <div className="mt-auto pt-4 border-t border-white/5">
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    {project.tech.map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-2.5 py-1 text-[11px] bg-blue-500/10 text-blue-400 rounded-md font-medium"
                       >
-                        <span className="mr-2 group-hover:underline">
-                          View Details
-                        </span>
-                        <ExternalLink
-                          size={16}
-                          className="group-hover:translate-x-1 transition-transform"
-                        />
-                      </button>
-                      {project.github && (
-                        <a
-                          href={project.github}
-                          className="text-gray-400 hover:text-white transition-colors duration-300 flex items-center group text-sm"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <span className="mr-2 group-hover:underline">
-                            Code
-                          </span>
-                          <Github
-                            size={16}
-                            className="group-hover:scale-110 transition-transform"
-                          />
-                        </a>
-                      )}
-                    </div>
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex justify-between items-center pt-2">
+                    <button
+                      onClick={() => setSelected(project)}
+                      className="text-xs font-semibold text-gray-300 hover:text-white transition-colors"
+                    >
+                      View Details
+                    </button>
+
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center text-xs font-semibold text-blue-400 hover:text-blue-300 transition-colors gap-1 group/link"
+                    >
+                      Visit Site
+                      <ExternalLink
+                        size={14}
+                        className="group-hover/link:translate-x-0.5 transition-transform"
+                      />
+                    </a>
                   </div>
                 </div>
               </div>
@@ -248,83 +333,76 @@ const Projects: React.FC = () => {
           ))}
         </div>
       </div>
-      {/* Modal */}
+
+      {/* Details Modal */}
       {selected && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div
-            className="absolute inset-0 bg-black/60"
+            className="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
             onClick={() => setSelected(null)}
           />
-          <div className="relative glass p-6 rounded-xl max-w-3xl w-[95%] z-10">
+          <div className="relative glass border border-white/10 p-6 md:p-8 rounded-2xl max-w-2xl w-full z-10 bg-slate-900/90 shadow-2xl">
+            {/* Modal Header */}
             <div className="flex justify-between items-start mb-4">
               <div>
-                <h3 className="text-2xl font-bold">{selected.title}</h3>
-                {selected.featured && (
-                  <div className="text-xs text-space-accent mt-1">
-                    Featured case study
-                  </div>
+                <h3 className="text-2xl font-bold text-white">
+                  {selected.title}
+                </h3>
+                {selected.status && (
+                  <span className="inline-block mt-1 text-xs text-amber-400 font-medium">
+                    Status: {selected.status}
+                  </span>
                 )}
               </div>
               <button
                 onClick={() => setSelected(null)}
-                className="text-gray-400 hover:text-white"
+                className="p-1 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+                aria-label="Close modal"
               >
-                Close
+                <X size={20} />
               </button>
             </div>
 
-            <p className="text-gray-300 mb-4">{selected.description}</p>
-            {selected.impact && selected.impact.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-4">
-                {selected.impact.map((it, i) => (
+            {/* Modal Content */}
+            <p className="text-gray-300 mb-6 leading-relaxed text-sm md:text-base">
+              {selected.description}
+            </p>
+
+            <div className="mb-6">
+              <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+                Technologies Used
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {selected.tech.map((t) => (
                   <span
-                    key={i}
-                    className="px-3 py-1 text-xs bg-space-accent/10 text-space-accent rounded-full"
+                    key={t}
+                    className="px-3 py-1 text-xs bg-blue-500/10 text-blue-400 rounded-full font-medium"
                   >
-                    {it}
+                    {t}
                   </span>
                 ))}
               </div>
-            )}
-            <div className="flex flex-wrap gap-2 mb-4">
-              {selected.tech.map((t) => (
-                <span
-                  key={t}
-                  className="inline-block px-3 py-1 text-xs bg-blue-500/10 text-blue-400 rounded-full"
-                >
-                  {t}
-                </span>
-              ))}
             </div>
-            <div className="flex items-center justify-between">
-              <div>
-                <a
-                  href={selected.link}
-                  className="text-blue-400 hover:underline mr-4"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Open project
-                </a>
-                {selected.github && (
-                  <a
-                    href={selected.github}
-                    className="text-gray-300 hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    View code
-                  </a>
-                )}
-              </div>
-              <div>
-                <a
-                  href="#contact"
-                  className="px-4 py-2 bg-space-accent rounded-md text-white"
-                >
-                  Book a free consultation
-                </a>
-              </div>
+
+            {/* Modal Actions */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/10">
+              <a
+                href={selected.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-semibold text-sm transition-colors shadow-lg shadow-blue-600/20"
+              >
+                <span>Visit Live Platform</span>
+                <ExternalLink size={16} />
+              </a>
+
+              <a
+                href="#contact"
+                onClick={() => setSelected(null)}
+                className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white rounded-xl font-semibold text-sm transition-colors"
+              >
+                Inquire About Similar Project
+              </a>
             </div>
           </div>
         </div>

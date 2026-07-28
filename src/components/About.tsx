@@ -1,7 +1,38 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
+import { Code2, Database, Brain, Rocket } from "lucide-react";
+
+const expertise = [
+  {
+    icon: Code2,
+    title: "Full-Stack Development",
+    desc: "End-to-end web applications with modern frameworks and robust architecture.",
+  },
+  {
+    icon: Database,
+    title: "Systems & Infrastructure",
+    desc: "Scalable backends, APIs, and databases built for real-world pressure.",
+  },
+  {
+    icon: Brain,
+    title: "AI Integration",
+    desc: "Intelligent features and automation that reduce manual overhead.",
+  },
+  {
+    icon: Rocket,
+    title: "Product Strategy",
+    desc: "Turning ambitious ideas into production-ready, maintainable products.",
+  },
+];
 
 const About: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (prefersReducedMotion) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -11,85 +42,105 @@ const About: React.FC = () => {
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
     );
 
-    document.querySelectorAll(".appear-animation").forEach((el) => {
-      observer.observe(el);
-    });
+    const elements = sectionRef.current?.querySelectorAll(".reveal-on-scroll");
+    elements?.forEach((el) => observer.observe(el));
 
-    return () => {
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <section id="about" className="py-24">
+    <section
+      id="about"
+      ref={sectionRef}
+      className="py-24 md:py-32"
+      aria-label="About me"
+    >
       <div className="container mx-auto px-4">
-        <div className="flex flex-col lg:flex-row gap-12 items-center">
-          <div className="lg:w-1/2">
-            <div className="appear-animation">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 inline-block relative">
+        <div className="flex flex-col lg:flex-row gap-16 items-start">
+          {/* Text Content */}
+          <div className="lg:w-3/5">
+            <div className="reveal-on-scroll">
+              <h2 className="text-3xl md:text-4xl font-bold mb-2 inline-block">
                 About <span className="text-space-accent">Me</span>
-                <span className="block h-1 w-1/3 bg-space-accent mt-2"></span>
               </h2>
+              <div className="h-1 w-20 bg-space-accent rounded-full mb-8" />
+            </div>
 
-              <p className="text-gray-300 mb-6 leading-relaxed">
-                I’m Hlulani Bliss Mahlathi — a Full-stack Web Systems Engineer
-                who builds secure, scalable products for startups and small
-                teams. My path to tech started in science, where systems
-                thinking and a deep appreciation for data shaped how I approach
-                engineering.
+            <div className="reveal-on-scroll space-y-6 text-gray-300 leading-relaxed">
+              <p className="text-lg text-white/90">
+                Technology has always been more than programming to me — it's a
+                way to solve meaningful problems.
               </p>
 
-              <p className="text-gray-300 mb-6 leading-relaxed">
-                I focus on shipping reliable systems: fast frontend interfaces
-                that connect with resilient backend APIs and infrastructure that
-                survives real-world pressure. I care about measurable outcomes —
-                increasing conversions, reducing operating costs, and making
-                systems easier to maintain.
+              <p>
+                I'm{" "}
+                <strong className="text-white">Hlulani Bliss Mahlathi</strong>,
+                a software engineer specializing in full-stack development,
+                intelligent software systems, and modern digital experiences. I
+                build applications that combine clean design, robust
+                engineering, and practical functionality to help businesses and
+                organizations operate more efficiently.
               </p>
 
-              <p className="text-gray-300 leading-relaxed">
-                My approach blends an engineer's discipline and a scientist's
-                curiosity. I thrive on tackling ambiguous problems and turning
-                them into products that users and businesses rely on.
+              <p>
+                Over the years, I've worked across web development, backend
+                systems, automation, databases, AI integration, and software
+                architecture. I enjoy taking ambitious ideas from concept to
+                production, ensuring every solution is scalable, maintainable,
+                and built with users in mind.
+              </p>
+
+              <p>
+                What motivates me most is creating technology that makes a
+                measurable difference — whether that's streamlining business
+                operations, improving educational systems, supporting
+                agriculture through digital innovation, or developing software
+                that enables people to work smarter.
+              </p>
+
+              <p className="text-white/80 italic border-l-2 border-space-accent/50 pl-4">
+                "The best software isn't defined by the technologies behind it,
+                but by the impact it creates."
               </p>
             </div>
           </div>
 
-          <div className="lg:w-1/2 flex flex-col items-center">
-            <div className="appear-animation relative w-64 h-64 md:w-80 md:h-80">
-              <div className="absolute inset-0 rounded-full bg-space-accent/10 animate-pulse-glow"></div>
+          {/* Visual / Expertise Cards */}
+          <div className="lg:w-2/5 w-full">
+            <div className="reveal-on-scroll relative w-48 h-48 md:w-56 md:h-56 mx-auto mb-10">
+              <div className="absolute inset-0 rounded-full bg-space-accent/10 animate-pulse-glow" />
               <div className="absolute inset-2 rounded-full glass cosmic-border overflow-hidden flex items-center justify-center p-1">
-                <div className="w-full h-full rounded-full bg-space-dark flex items-center justify-center text-4xl font-bold text-space-accent">
+                <div className="w-full h-full rounded-full bg-space-dark flex items-center justify-center text-3xl font-bold text-space-accent">
                   HM
                 </div>
               </div>
             </div>
-            <div className="mt-6 glass p-4 rounded-lg cosmic-border w-full max-w-sm text-left">
-              <h4 className="font-semibold text-space-accent mb-2">
-                Impact highlights
-              </h4>
-              <ul className="text-gray-300 text-sm space-y-2">
-                <li>
-                  • Delivered products used by{" "}
-                  <span className="text-white font-medium">— add metric —</span>{" "}
-                  users/month
-                </li>
-                <li>
-                  • Helped teams increase online conversions by{" "}
-                  <span className="text-white font-medium">— add % —</span>
-                </li>
-                <li>
-                  • Reduced operations or dev time by{" "}
-                  <span className="text-white font-medium">— add hours —</span>{" "}
-                  per month
-                </li>
-              </ul>
-              <p className="text-xs text-gray-500 mt-3">
-                Add real metrics to build trust — even estimates are powerful.
-              </p>
+
+            <div className="reveal-on-scroll grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
+              {expertise.map((item, index) => (
+                <div
+                  key={item.title}
+                  className="glass p-4 rounded-xl cosmic-border hover:bg-white/5 transition-colors duration-300"
+                  style={{ transitionDelay: `${index * 100}ms` }}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 rounded-lg bg-space-accent/10 text-space-accent mt-0.5">
+                      <item.icon size={18} />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white text-sm mb-1">
+                        {item.title}
+                      </h4>
+                      <p className="text-gray-400 text-xs leading-relaxed">
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
