@@ -204,7 +204,11 @@ const TechStack: React.FC = () => {
   /* ────────────── Reduced Motion Fallback ────────────── */
   if (prefersReducedMotion) {
     return (
-      <section id="skills" className="py-24" aria-label="Technical skills">
+      <section
+        id="skills"
+        className="py-24 overflow-hidden"
+        aria-label="Technical skills"
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold">
