@@ -15,7 +15,7 @@ const TESTIMONIALS: Testimonial[] = [
   {
     quote:
       "Hlulani built our medical center's online platform seamlessly. Patient inquiries and booking visibility improved dramatically right after launch. Fast, reliable, and extremely knowledgeable.",
-    name: "Dr. M. Chauke",
+    name: "Dr. H. Chauke",
     position: "Practice Director",
     company: "Hlulani Medical Centre",
     rating: 5,
@@ -35,7 +35,7 @@ const TESTIMONIALS: Testimonial[] = [
   {
     quote:
       "He engineered a modern marketplace interface that easily scales across desktop and mobile devices. Exceptional attention to detail and UI/UX performance.",
-    name: "K. Ndlovu",
+    name: "INHIM Trading",
     position: "Product Manager",
     company: "Gaza Market",
     rating: 5,
