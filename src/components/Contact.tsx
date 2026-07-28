@@ -115,15 +115,18 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-20 md:py-28 relative overflow-hidden">
-      <div className="container mx-auto px-4 max-w-7xl">
+    <section
+      id="contact"
+      className="py-12 sm:py-16 md:py-20 lg:py-28 relative overflow-hidden"
+    >
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         {/* Header */}
-        <div className="appear-animation text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 inline-block relative tracking-tight text-white">
+        <div className="appear-animation text-center mb-10 sm:mb-12 md:mb-16">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 inline-block relative tracking-tight text-white">
             Get In <span className="text-blue-500">Touch</span>
             <span className="block h-1 w-1/2 bg-blue-500 mt-2 mx-auto rounded-full" />
           </h2>
-          <p className="text-gray-300 max-w-2xl mx-auto text-sm md:text-base">
+          <p className="text-gray-300 max-w-2xl mx-auto text-xs sm:text-sm md:text-base px-4">
             Have a project in mind, need software architecture guidance, or just
             want to chat? I'm always open to discussing new opportunities and
             ideas.
@@ -131,15 +134,19 @@ const Contact: React.FC = () => {
         </div>
 
         {/* Content Layout */}
-        <div className="flex flex-col lg:flex-row gap-10">
+        <div className="flex flex-col lg:flex-row gap-6 sm:gap-8 lg:gap-10">
           {/* Form Side */}
-          <div className="appear-animation lg:w-1/2 bg-white/[0.02] border border-white/10 backdrop-blur-md p-6 sm:p-8 rounded-2xl shadow-xl">
-            <h3 className="text-2xl font-bold text-white mb-6">
+          <div className="appear-animation lg:w-1/2 bg-white/[0.02] border border-white/10 backdrop-blur-md p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">
               Send Me a Message
             </h3>
 
-            <form ref={formRef} onSubmit={sendEmail} className="space-y-5">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <form
+              ref={formRef}
+              onSubmit={sendEmail}
+              className="space-y-4 sm:space-y-5"
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                 <div>
                   <Label
                     htmlFor="name"
@@ -150,7 +157,7 @@ const Contact: React.FC = () => {
                   <Input
                     type="text"
                     id="name"
-                    className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:ring-blue-500 focus:border-blue-500 rounded-xl"
+                    className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:ring-blue-500 focus:border-blue-500 rounded-xl h-10 sm:h-11 text-sm"
                     placeholder="Your name"
                     onChange={handleChange}
                     value={formData.name}
@@ -167,7 +174,7 @@ const Contact: React.FC = () => {
                   <Input
                     type="email"
                     id="email"
-                    className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:ring-blue-500 focus:border-blue-500 rounded-xl"
+                    className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:ring-blue-500 focus:border-blue-500 rounded-xl h-10 sm:h-11 text-sm"
                     placeholder="your.email@example.com"
                     onChange={handleChange}
                     value={formData.email}
@@ -186,7 +193,7 @@ const Contact: React.FC = () => {
                 <Input
                   type="tel"
                   id="phone"
-                  className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:ring-blue-500 focus:border-blue-500 rounded-xl"
+                  className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:ring-blue-500 focus:border-blue-500 rounded-xl h-10 sm:h-11 text-sm"
                   placeholder="+27 71 523 1720"
                   onChange={handleChange}
                   value={formData.phone}
@@ -203,7 +210,7 @@ const Contact: React.FC = () => {
                 <Input
                   type="text"
                   id="subject"
-                  className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:ring-blue-500 focus:border-blue-500 rounded-xl"
+                  className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:ring-blue-500 focus:border-blue-500 rounded-xl h-10 sm:h-11 text-sm"
                   placeholder="What is this regarding?"
                   onChange={handleChange}
                   value={formData.subject}
@@ -221,7 +228,7 @@ const Contact: React.FC = () => {
                 <Textarea
                   id="message"
                   rows={5}
-                  className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:ring-blue-500 focus:border-blue-500 rounded-xl resize-none"
+                  className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:ring-blue-500 focus:border-blue-500 rounded-xl resize-none text-sm"
                   placeholder="Your message here..."
                   onChange={handleChange}
                   value={formData.message}
@@ -231,7 +238,7 @@ const Contact: React.FC = () => {
 
               <Button
                 type="submit"
-                className="w-full sm:w-auto bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-2.5 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2"
+                className="w-full sm:w-auto bg-blue-600 hover:bg-blue-500 text-white font-semibold px-4 sm:px-6 py-2.5 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 text-sm sm:text-base"
                 disabled={isSending}
               >
                 {isSending ? (
@@ -248,7 +255,7 @@ const Contact: React.FC = () => {
               </Button>
 
               {success && (
-                <p className="text-emerald-400 text-sm mt-3 font-medium">
+                <p className="text-emerald-400 text-xs sm:text-sm mt-3 font-medium">
                   ✓ Message sent successfully! I will reply shortly.
                 </p>
               )}
@@ -256,45 +263,45 @@ const Contact: React.FC = () => {
           </div>
 
           {/* Contact Details Side */}
-          <div className="appear-animation lg:w-1/2 flex flex-col justify-between bg-white/[0.02] border border-white/10 backdrop-blur-md p-6 sm:p-8 rounded-2xl shadow-xl">
+          <div className="appear-animation lg:w-1/2 flex flex-col justify-between bg-white/[0.02] border border-white/10 backdrop-blur-md p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl">
             <div>
-              <h3 className="text-2xl font-bold text-white mb-4">
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">
                 Contact Information
               </h3>
-              <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-8">
+              <p className="text-gray-300 text-xs sm:text-sm md:text-base leading-relaxed mb-6 sm:mb-8">
                 Feel free to reach out through any of the channels below or book
                 a direct request.
               </p>
 
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400">
-                    <Mail size={20} />
+              <div className="space-y-4 sm:space-y-6">
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="p-2.5 sm:p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400 flex-shrink-0">
+                    <Mail size={18} className="sm:w-5 sm:h-5" />
                   </div>
-                  <div>
-                    <h4 className="text-xs uppercase tracking-wider font-semibold text-gray-400 mb-0.5">
+                  <div className="min-w-0">
+                    <h4 className="text-[10px] sm:text-xs uppercase tracking-wider font-semibold text-gray-400 mb-0.5">
                       Email
                     </h4>
                     <a
                       href="mailto:blissmahlathi37@gmail.com"
-                      className="text-white hover:text-blue-400 font-medium transition-colors"
+                      className="text-white hover:text-blue-400 font-medium transition-colors text-sm sm:text-base break-words"
                     >
                       blissmahlathi37@gmail.com
                     </a>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400">
-                    <Phone size={20} />
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="p-2.5 sm:p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400 flex-shrink-0">
+                    <Phone size={18} className="sm:w-5 sm:h-5" />
                   </div>
                   <div>
-                    <h4 className="text-xs uppercase tracking-wider font-semibold text-gray-400 mb-0.5">
+                    <h4 className="text-[10px] sm:text-xs uppercase tracking-wider font-semibold text-gray-400 mb-0.5">
                       Phone
                     </h4>
                     <a
                       href="tel:+27715231720"
-                      className="text-white hover:text-blue-400 font-medium transition-colors"
+                      className="text-white hover:text-blue-400 font-medium transition-colors text-sm sm:text-base"
                     >
                       +27 71 523 1720
                     </a>
@@ -304,38 +311,38 @@ const Contact: React.FC = () => {
             </div>
 
             {/* Social Links & CTA */}
-            <div className="pt-8 mt-8 border-t border-white/10 space-y-6">
+            <div className="pt-6 sm:pt-8 mt-6 sm:mt-8 border-t border-white/10 space-y-5 sm:space-y-6">
               <div>
-                <h4 className="text-xs uppercase tracking-wider font-semibold text-gray-400 mb-3">
+                <h4 className="text-[10px] sm:text-xs uppercase tracking-wider font-semibold text-gray-400 mb-2.5 sm:mb-3">
                   Connect With Me
                 </h4>
-                <div className="flex gap-3">
+                <div className="flex gap-2 sm:gap-3 flex-wrap">
                   <a
                     href="https://github.com/BlissMahlathi"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="GitHub Profile"
-                    className="p-3 rounded-xl bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 transition-colors"
+                    className="p-2.5 sm:p-3 rounded-xl bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 transition-colors"
                   >
-                    <Github size={20} />
+                    <Github size={18} className="sm:w-5 sm:h-5" />
                   </a>
                   <a
                     href="https://www.linkedin.com/in/hlulani-mahlathi"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="LinkedIn Profile"
-                    className="p-3 rounded-xl bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 transition-colors"
+                    className="p-2.5 sm:p-3 rounded-xl bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 transition-colors"
                   >
-                    <Linkedin size={20} />
+                    <Linkedin size={18} className="sm:w-5 sm:h-5" />
                   </a>
                   <a
                     href="https://www.facebook.com/bliss.mahlathi.9/"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Facebook Profile"
-                    className="p-3 rounded-xl bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 transition-colors"
+                    className="p-2.5 sm:p-3 rounded-xl bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 transition-colors"
                   >
-                    <Facebook size={20} />
+                    <Facebook size={18} className="sm:w-5 sm:h-5" />
                   </a>
                 </div>
               </div>
@@ -343,7 +350,7 @@ const Contact: React.FC = () => {
               <div>
                 <a
                   href="mailto:blissmahlathi37@gmail.com?subject=Free%20consultation%20request"
-                  className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-3 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 font-semibold rounded-xl text-sm transition-colors"
+                  className="w-full sm:w-auto inline-flex items-center justify-center px-4 sm:px-5 py-2.5 sm:py-3 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 font-semibold rounded-xl text-xs sm:text-sm transition-colors"
                 >
                   Book a free consultation
                 </a>

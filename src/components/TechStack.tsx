@@ -142,18 +142,18 @@ const categoryConfig: Record<
 };
 
 const sizeClasses = {
-  sm: "w-12 h-12 text-sm",
-  md: "w-14 h-14 text-base",
+  sm: "w-10 h-10 sm:w-12 sm:h-12 text-xs sm:text-sm",
+  md: "w-12 h-12 sm:w-14 sm:h-14 text-sm sm:text-base",
 };
 
 // Ring definitions: orbit radius (px) and base rotation duration (s)
 const rings = [
-  { radius: 75, duration: 20 },
-  { radius: 125, duration: 25 },
-  { radius: 175, duration: 30 },
-  { radius: 225, duration: 35 },
-  { radius: 275, duration: 40 },
-  { radius: 325, duration: 45 },
+  { radius: 55, duration: 20 },
+  { radius: 95, duration: 25 },
+  { radius: 135, duration: 30 },
+  { radius: 175, duration: 35 },
+  { radius: 215, duration: 40 },
+  { radius: 255, duration: 45 },
 ];
 
 const TechStack: React.FC = () => {
@@ -206,25 +206,26 @@ const TechStack: React.FC = () => {
     return (
       <section
         id="skills"
-        className="py-24 overflow-hidden"
+        className="py-16 sm:py-20 md:py-24 overflow-hidden"
         aria-label="Technical skills"
       >
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center mb-8 sm:mb-10 md:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">
               Technical <span className="text-space-accent">Skills</span>
             </h2>
-            <p className="text-gray-300 max-w-2xl mx-auto mt-4">
+            <div className="h-1 w-20 bg-space-accent rounded-full mx-auto mt-3 sm:mt-4" />
+            <p className="text-gray-300 max-w-2xl mx-auto mt-3 sm:mt-4 text-sm sm:text-base">
               Technologies and tools I use to build scalable, reliable systems.
             </p>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
             {techItems.map((tech) => {
               const cfg = categoryConfig[tech.category];
               return (
                 <div
                   key={tech.name}
-                  className={`glass p-4 rounded-xl border ${cfg.color} flex flex-col items-center gap-3 hover:bg-white/5 transition-colors focus-within:ring-2 focus-within:ring-space-accent`}
+                  className={`glass p-3 sm:p-4 rounded-xl border ${cfg.color} flex flex-col items-center gap-2 sm:gap-3 hover:bg-white/5 transition-colors focus-within:ring-2 focus-within:ring-space-accent`}
                   tabIndex={0}
                 >
                   <div
@@ -232,10 +233,10 @@ const TechStack: React.FC = () => {
                   >
                     {tech.icon}
                   </div>
-                  <span className="font-semibold text-sm text-white">
+                  <span className="font-semibold text-xs sm:text-sm text-white">
                     {tech.name}
                   </span>
-                  <span className={`text-xs ${cfg.textColor}`}>
+                  <span className={`text-[10px] sm:text-xs ${cfg.textColor}`}>
                     {cfg.label}
                   </span>
                 </div>
@@ -251,48 +252,47 @@ const TechStack: React.FC = () => {
   return (
     <section
       id="skills"
-      className="py-24 relative"
+      className="py-16 sm:py-20 md:py-24 relative overflow-hidden"
       aria-label="Technical skills orbit"
     >
       {/* Ambient background blobs */}
       <div className="absolute inset-0 overflow-hidden opacity-10 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-600 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-1/4 left-1/4 w-32 sm:w-48 md:w-64 h-32 sm:h-48 md:h-64 bg-purple-600 rounded-full blur-3xl animate-pulse" />
         <div
-          className="absolute bottom-1/3 right-1/3 w-96 h-96 bg-blue-600 rounded-full blur-3xl animate-pulse"
+          className="absolute bottom-1/3 right-1/3 w-48 sm:w-72 md:w-96 h-48 sm:h-72 md:h-96 bg-blue-600 rounded-full blur-3xl animate-pulse"
           style={{ animationDelay: "2s" }}
         />
       </div>
 
-      <div className="container mx-auto px-4 relative">
+      <div className="container mx-auto px-4 sm:px-6 relative">
         {/* Header */}
-        <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold">
+        <div className="text-center mb-6 sm:mb-8 md:mb-10">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">
             Technical <span className="text-space-accent">Universe</span>
           </h2>
-          <div className="h-1 w-20 bg-space-accent rounded-full mx-auto mt-4" />
-          <p className="text-gray-300 max-w-2xl mx-auto mt-4">
+          <div className="h-1 w-16 sm:w-20 bg-space-accent rounded-full mx-auto mt-3 sm:mt-4" />
+          <p className="text-gray-300 max-w-2xl mx-auto mt-3 sm:mt-4 text-sm sm:text-base px-2">
             Explore my orbiting skills — each planet represents a technology
-            I've mastered. Systems architecture and security are core strengths
-            for scalable, reliable products.
+            I've mastered.
           </p>
         </div>
 
         {/* Speed controls */}
-        <div className="flex justify-center mb-6">
-          <div className="glass p-2 rounded-full flex items-center gap-2">
+        <div className="flex justify-center mb-4 sm:mb-6">
+          <div className="glass p-1.5 sm:p-2 rounded-full flex items-center gap-1.5 sm:gap-2">
             <button
               onClick={handleSpeedDown}
-              className="w-8 h-8 rounded-full hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-space-accent flex items-center justify-center text-white transition"
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-space-accent flex items-center justify-center text-white transition text-sm sm:text-base"
               aria-label="Decrease orbit speed"
             >
               −
             </button>
-            <span className="text-sm w-16 text-center tabular-nums text-white">
+            <span className="text-xs sm:text-sm w-12 sm:w-16 text-center tabular-nums text-white">
               {orbitSpeed.toFixed(1)}×
             </span>
             <button
               onClick={handleSpeedUp}
-              className="w-8 h-8 rounded-full hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-space-accent flex items-center justify-center text-white transition"
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-space-accent flex items-center justify-center text-white transition text-sm sm:text-base"
               aria-label="Increase orbit speed"
             >
               +
@@ -301,7 +301,7 @@ const TechStack: React.FC = () => {
         </div>
 
         {/* Orbit stage */}
-        <div className="relative h-[420px] md:h-[560px] lg:h-[720px] flex items-center justify-center">
+        <div className="relative h-[320px] sm:h-[380px] md:h-[480px] lg:h-[600px] xl:h-[720px] flex items-center justify-center overflow-visible">
           {/* Keyframes */}
           <style>{`
             @keyframes orbit {
@@ -322,10 +322,10 @@ const TechStack: React.FC = () => {
           `}</style>
 
           {/* Scaled orbit system */}
-          <div className="absolute inset-0 flex items-center justify-center scale-[0.6] md:scale-[0.85] lg:scale-100 transition-transform duration-500">
+          <div className="absolute inset-0 flex items-center justify-center scale-[0.45] sm:scale-[0.55] md:scale-[0.75] lg:scale-[0.9] xl:scale-100 transition-transform duration-500">
             {/* Core planet */}
             <div
-              className="relative z-20 w-20 h-20 bg-gradient-to-br from-space-accent to-purple-600 rounded-full flex items-center justify-center shadow-xl shadow-space-accent/30 cursor-pointer animate-pulse"
+              className="relative z-20 w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-gradient-to-br from-space-accent to-purple-600 rounded-full flex items-center justify-center shadow-xl shadow-space-accent/30 cursor-pointer animate-pulse"
               onMouseEnter={() => setActiveTech("CORE")}
               onMouseLeave={() => setActiveTech(null)}
               onFocus={() => setActiveTech("CORE")}
@@ -334,7 +334,11 @@ const TechStack: React.FC = () => {
               role="button"
               aria-label="Core strengths"
             >
-              <Zap size={24} className="text-white" aria-hidden="true" />
+              <Zap
+                size={18}
+                className="sm:w-5 sm:h-5 md:w-6 md:h-6 text-white"
+                aria-hidden="true"
+              />
             </div>
 
             {/* Orbit rings */}
@@ -386,34 +390,34 @@ const TechStack: React.FC = () => {
 
           {/* Active tech info panel */}
           <div
-            className="absolute bottom-4 left-1/2 -translate-x-1/2 w-full max-w-sm z-30"
+            className="absolute bottom-0 sm:bottom-2 left-1/2 -translate-x-1/2 w-full max-w-[280px] sm:max-w-sm z-30"
             aria-live="polite"
             aria-atomic="true"
           >
             {activeTech && (
-              <div className="glass cosmic-border p-4 rounded-xl mx-4 animate-fade-in-up">
+              <div className="glass cosmic-border p-3 sm:p-4 rounded-xl mx-3 sm:mx-4 animate-fade-in-up">
                 {activeTech === "CORE" ? (
                   <div className="text-center">
-                    <h3 className="text-lg font-bold text-space-accent mb-1">
+                    <h3 className="text-base sm:text-lg font-bold text-space-accent mb-0.5 sm:mb-1">
                       Core Strengths
                     </h3>
-                    <p className="text-gray-300 text-sm">
+                    <p className="text-gray-300 text-xs sm:text-sm">
                       Systems architecture, security, and scalable engineering
                     </p>
                   </div>
                 ) : activeTechData ? (
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3 sm:gap-4">
                     <div
-                      className={`${sizeClasses[activeTechData.size]} rounded-full flex items-center justify-center border ${categoryConfig[activeTechData.category].color} text-white`}
+                      className={`${sizeClasses[activeTechData.size]} rounded-full flex items-center justify-center border ${categoryConfig[activeTechData.category].color} text-white flex-shrink-0`}
                     >
                       {activeTechData.icon}
                     </div>
-                    <div>
-                      <h3 className="text-lg font-bold text-white">
+                    <div className="min-w-0">
+                      <h3 className="text-base sm:text-lg font-bold text-white truncate">
                         {activeTechData.name}
                       </h3>
                       <span
-                        className={`text-sm ${categoryConfig[activeTechData.category].textColor}`}
+                        className={`text-xs sm:text-sm ${categoryConfig[activeTechData.category].textColor}`}
                       >
                         {categoryConfig[activeTechData.category].label}
                       </span>
@@ -426,13 +430,15 @@ const TechStack: React.FC = () => {
         </div>
 
         {/* Legend */}
-        <div className="mt-10 flex flex-wrap justify-center gap-6">
+        <div className="mt-6 sm:mt-8 md:mt-10 flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6">
           {(Object.keys(categoryConfig) as TechCategory[]).map((cat) => (
-            <div key={cat} className="flex items-center gap-2">
+            <div key={cat} className="flex items-center gap-1.5 sm:gap-2">
               <div
-                className={`w-3 h-3 rounded-full ${categoryConfig[cat].dotColor}`}
+                className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full ${categoryConfig[cat].dotColor}`}
               />
-              <span className="text-sm text-gray-300 capitalize">{cat}</span>
+              <span className="text-[10px] sm:text-sm text-gray-300 capitalize">
+                {cat}
+              </span>
             </div>
           ))}
         </div>
