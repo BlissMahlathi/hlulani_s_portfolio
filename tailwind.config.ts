@@ -54,9 +54,10 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				},
         space: {
-          dark: "#0f0f12",
-          blue: "#1a1a2e",
-          accent: "#6d59f0"
+          dark: "hsl(var(--space-dark))",
+          blue: "hsl(var(--space-blue))",
+          accent: "hsl(var(--space-accent))",
+          warm: "hsl(var(--space-warm))"
         }
 			},
 			borderRadius: {
@@ -114,6 +115,7 @@ export default {
 			},
 			fontFamily: {
 				'sans': ['"SF Pro Display"', '"Inter"', 'system-ui', 'sans-serif'],
+				'display': ['"Bodoni MT"', 'Georgia', 'serif'],
 				'mono': ['"SF Mono"', 'monospace']
 			},
 		}

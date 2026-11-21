@@ -1,446 +1,234 @@
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { Database, Minus, Plus, Zap } from "lucide-react";
 import {
-  Database,
-  Server,
-  GitBranch,
-  Layers,
-  Terminal,
-  Zap,
-} from "lucide-react";
+  SiCplusplus,
+  SiCsharp,
+  SiDjango,
+  SiExpress,
+  SiFlask,
+  SiHtml5,
+  SiJavascript,
+  SiMongodb,
+  SiNodedotjs,
+  SiPython,
+  SiReact,
+  SiTypescript,
+} from "react-icons/si";
+import type { IconType } from "react-icons";
+import { Button } from "@/components/ui/button";
 
 type TechCategory = "language" | "frontend" | "backend" | "database" | "tool";
 
 interface TechItem {
   name: string;
-  icon: React.ReactNode;
+  icon: IconType | typeof Database;
   category: TechCategory;
-  ring: number; // 0–5
-  size: "sm" | "md";
+  ring: number;
 }
 
 const techItems: TechItem[] = [
-  {
-    name: "Python",
-    icon: <span className="text-lg">🐍</span>,
-    category: "language",
-    ring: 0,
-    size: "md",
-  },
-  {
-    name: "JavaScript",
-    icon: <span className="text-sm font-bold">JS</span>,
-    category: "language",
-    ring: 0,
-    size: "sm",
-  },
-  {
-    name: "TypeScript",
-    icon: <span className="text-sm font-bold">TS</span>,
-    category: "language",
-    ring: 1,
-    size: "sm",
-  },
-  {
-    name: "C++",
-    icon: <span className="text-sm font-bold">C++</span>,
-    category: "language",
-    ring: 1,
-    size: "md",
-  },
-  {
-    name: "C#",
-    icon: <span className="text-sm font-bold">C#</span>,
-    category: "language",
-    ring: 2,
-    size: "sm",
-  },
-  {
-    name: "SQL",
-    icon: <Database size={20} aria-hidden="true" />,
-    category: "database",
-    ring: 2,
-    size: "sm",
-  },
-  {
-    name: "React",
-    icon: <span aria-hidden="true">⚛️</span>,
-    category: "frontend",
-    ring: 3,
-    size: "md",
-  },
-  {
-    name: "Node.js",
-    icon: <Server size={20} aria-hidden="true" />,
-    category: "backend",
-    ring: 3,
-    size: "sm",
-  },
-  {
-    name: "Flask",
-    icon: <span aria-hidden="true">🧪</span>,
-    category: "backend",
-    ring: 4,
-    size: "sm",
-  },
-  {
-    name: "Django",
-    icon: <Layers size={20} aria-hidden="true" />,
-    category: "backend",
-    ring: 4,
-    size: "sm",
-  },
-  {
-    name: "Git",
-    icon: <GitBranch size={20} aria-hidden="true" />,
-    category: "tool",
-    ring: 5,
-    size: "sm",
-  },
-  {
-    name: "Bash",
-    icon: <Terminal size={20} aria-hidden="true" />,
-    category: "tool",
-    ring: 5,
-    size: "sm",
-  },
+  { name: "Python", icon: SiPython, category: "language", ring: 0 },
+  { name: "JavaScript", icon: SiJavascript, category: "language", ring: 0 },
+  { name: "TypeScript", icon: SiTypescript, category: "language", ring: 1 },
+  { name: "C++", icon: SiCplusplus, category: "language", ring: 1 },
+  { name: "C#", icon: SiCsharp, category: "language", ring: 2 },
+  { name: "HTML", icon: SiHtml5, category: "frontend", ring: 2 },
+  { name: "SQL", icon: Database, category: "database", ring: 3 },
+  { name: "React", icon: SiReact, category: "frontend", ring: 3 },
+  { name: "Node.js", icon: SiNodedotjs, category: "backend", ring: 4 },
+  { name: "MongoDB", icon: SiMongodb, category: "database", ring: 4 },
+  { name: "Flask", icon: SiFlask, category: "backend", ring: 5 },
+  { name: "Django", icon: SiDjango, category: "backend", ring: 5 },
+  { name: "Express", icon: SiExpress, category: "backend", ring: 5 },
+];
+
+const rings = [
+  { radius: 52, duration: 18 },
+  { radius: 88, duration: 22 },
+  { radius: 124, duration: 26 },
+  { radius: 160, duration: 30 },
+  { radius: 196, duration: 34 },
+  { radius: 232, duration: 38 },
 ];
 
 const categoryConfig: Record<
   TechCategory,
-  { color: string; label: string; textColor: string; dotColor: string }
+  { label: string; classes: string; dot: string }
 > = {
   language: {
-    color: "bg-blue-500/20 border-blue-500/50",
-    label: "Language",
-    textColor: "text-blue-400",
-    dotColor: "bg-blue-400",
+    label: "Languages",
+    classes: "border-space-accent/35 bg-space-accent/10 text-space-accent",
+    dot: "bg-space-accent",
   },
   frontend: {
-    color: "bg-purple-500/20 border-purple-500/50",
     label: "Frontend",
-    textColor: "text-purple-400",
-    dotColor: "bg-purple-400",
+    classes: "border-space-warm/35 bg-space-warm/10 text-space-warm",
+    dot: "bg-space-warm",
   },
   backend: {
-    color: "bg-green-500/20 border-green-500/50",
     label: "Backend",
-    textColor: "text-green-400",
-    dotColor: "bg-green-400",
+    classes: "border-border bg-secondary/60 text-foreground",
+    dot: "bg-foreground/75",
   },
   database: {
-    color: "bg-orange-500/20 border-orange-500/50",
-    label: "Database",
-    textColor: "text-orange-400",
-    dotColor: "bg-orange-400",
+    label: "Data",
+    classes: "border-space-blue/45 bg-space-blue/15 text-foreground",
+    dot: "bg-space-blue",
   },
   tool: {
-    color: "bg-red-500/20 border-red-500/50",
-    label: "Tool",
-    textColor: "text-red-400",
-    dotColor: "bg-red-400",
+    label: "Tools",
+    classes: "border-border bg-muted text-muted-foreground",
+    dot: "bg-muted-foreground",
   },
 };
 
-const sizeClasses = {
-  sm: "w-10 h-10 sm:w-12 sm:h-12 text-xs sm:text-sm",
-  md: "w-12 h-12 sm:w-14 sm:h-14 text-sm sm:text-base",
-};
-
-// Ring definitions: orbit radius (px) and base rotation duration (s)
-const rings = [
-  { radius: 55, duration: 20 },
-  { radius: 95, duration: 25 },
-  { radius: 135, duration: 30 },
-  { radius: 175, duration: 35 },
-  { radius: 215, duration: 40 },
-  { radius: 255, duration: 45 },
-];
-
 const TechStack: React.FC = () => {
-  const [isMounted, setIsMounted] = useState(false);
   const [activeTech, setActiveTech] = useState<string | null>(null);
   const [orbitSpeed, setOrbitSpeed] = useState(1);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
-    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mql.matches);
-    const handler = (e: MediaQueryListEvent) =>
-      setPrefersReducedMotion(e.matches);
-    mql.addEventListener("change", handler);
-    return () => mql.removeEventListener("change", handler);
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(media.matches);
+    const onChange = (event: MediaQueryListEvent) =>
+      setPrefersReducedMotion(event.matches);
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
   }, []);
 
-  const handleSpeedDown = useCallback(() => {
-    setOrbitSpeed((s) => Math.max(0.5, +(s - 0.5).toFixed(1)));
-  }, []);
-
-  const handleSpeedUp = useCallback(() => {
-    setOrbitSpeed((s) => Math.min(3, +(s + 0.5).toFixed(1)));
-  }, []);
-
-  const activeTechData = useMemo(
-    () => techItems.find((t) => t.name === activeTech),
-    [activeTech],
-  );
-
-  // Compute orbit parameters: radius, duration, and staggered delay
-  const techsWithOrbit = useMemo(() => {
-    const ringCounts = new Map<number, number>();
-    return techItems.map((tech) => {
-      const ring = rings[tech.ring];
-      const count = ringCounts.get(tech.ring) || 0;
-      ringCounts.set(tech.ring, count + 1);
+  const orbitItems = useMemo(() => {
+    const counts = new Map<number, number>();
+    const positions = new Map<number, number>();
+    techItems.forEach((item) => counts.set(item.ring, (counts.get(item.ring) ?? 0) + 1));
+    return techItems.map((item) => {
+      const position = positions.get(item.ring) ?? 0;
+      positions.set(item.ring, position + 1);
       return {
-        ...tech,
-        orbitRadius: ring.radius,
-        orbitDuration: ring.duration / orbitSpeed,
-        orbitDelay: count * (ring.duration / 2), // 180° apart
+        ...item,
+        orbit: rings[item.ring],
+        delay: position * (rings[item.ring].duration / (counts.get(item.ring) ?? 1)),
       };
     });
-  }, [orbitSpeed]);
+  }, []);
 
-  /* ────────────── Reduced Motion Fallback ────────────── */
-  if (prefersReducedMotion) {
-    return (
-      <section
-        id="skills"
-        className="py-16 sm:py-20 md:py-24 overflow-hidden"
-        aria-label="Technical skills"
-      >
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="text-center mb-8 sm:mb-10 md:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">
-              Technical <span className="text-space-accent">Skills</span>
-            </h2>
-            <div className="h-1 w-20 bg-space-accent rounded-full mx-auto mt-3 sm:mt-4" />
-            <p className="text-gray-300 max-w-2xl mx-auto mt-3 sm:mt-4 text-sm sm:text-base">
-              Technologies and tools I use to build scalable, reliable systems.
-            </p>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
-            {techItems.map((tech) => {
-              const cfg = categoryConfig[tech.category];
-              return (
-                <div
-                  key={tech.name}
-                  className={`glass p-3 sm:p-4 rounded-xl border ${cfg.color} flex flex-col items-center gap-2 sm:gap-3 hover:bg-white/5 transition-colors focus-within:ring-2 focus-within:ring-space-accent`}
-                  tabIndex={0}
-                >
-                  <div
-                    className={`${sizeClasses[tech.size]} rounded-full flex items-center justify-center bg-white/5 text-white`}
-                  >
-                    {tech.icon}
-                  </div>
-                  <span className="font-semibold text-xs sm:text-sm text-white">
-                    {tech.name}
-                  </span>
-                  <span className={`text-[10px] sm:text-xs ${cfg.textColor}`}>
-                    {cfg.label}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  /* ────────────── Orbit Visualization ────────────── */
   return (
-    <section
-      id="skills"
-      className="py-16 sm:py-20 md:py-24 relative overflow-hidden"
-      aria-label="Technical skills orbit"
-    >
-      {/* Ambient background blobs */}
-      <div className="absolute inset-0 overflow-hidden opacity-10 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-32 sm:w-48 md:w-64 h-32 sm:h-48 md:h-64 bg-purple-600 rounded-full blur-3xl animate-pulse" />
-        <div
-          className="absolute bottom-1/3 right-1/3 w-48 sm:w-72 md:w-96 h-48 sm:h-72 md:h-96 bg-blue-600 rounded-full blur-3xl animate-pulse"
-          style={{ animationDelay: "2s" }}
-        />
-      </div>
+    <section id="skills" className="relative overflow-hidden py-20 sm:py-24 md:py-28" aria-label="Technical skills">
+      <div className="container mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-16">
+          <div>
+            <p className="mb-4 flex items-center gap-3 text-[10px] font-semibold uppercase text-space-warm">
+              <span className="h-px w-8 bg-space-warm" /> 02 / Technical range
+            </p>
+            <h2 className="font-display text-4xl font-medium leading-tight text-foreground sm:text-5xl">
+              Tools for ideas that <span className="text-space-accent">move.</span>
+            </h2>
+            <p className="mt-5 max-w-md text-sm leading-7 text-muted-foreground sm:text-base">
+              Languages, frameworks and data tools I use to shape dependable web products — arranged around the work, not just the buzzwords.
+            </p>
 
-      <div className="container mx-auto px-4 sm:px-6 relative">
-        {/* Header */}
-        <div className="text-center mb-6 sm:mb-8 md:mb-10">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">
-            Technical <span className="text-space-accent">Universe</span>
-          </h2>
-          <div className="h-1 w-16 sm:w-20 bg-space-accent rounded-full mx-auto mt-3 sm:mt-4" />
-          <p className="text-gray-300 max-w-2xl mx-auto mt-3 sm:mt-4 text-sm sm:text-base px-2">
-            Explore my orbiting skills — each planet represents a technology
-            I've mastered.
-          </p>
-        </div>
-
-        {/* Speed controls */}
-        <div className="flex justify-center mb-4 sm:mb-6">
-          <div className="glass p-1.5 sm:p-2 rounded-full flex items-center gap-1.5 sm:gap-2">
-            <button
-              onClick={handleSpeedDown}
-              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-space-accent flex items-center justify-center text-white transition text-sm sm:text-base"
-              aria-label="Decrease orbit speed"
-            >
-              −
-            </button>
-            <span className="text-xs sm:text-sm w-12 sm:w-16 text-center tabular-nums text-white">
-              {orbitSpeed.toFixed(1)}×
-            </span>
-            <button
-              onClick={handleSpeedUp}
-              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-space-accent flex items-center justify-center text-white transition text-sm sm:text-base"
-              aria-label="Increase orbit speed"
-            >
-              +
-            </button>
-          </div>
-        </div>
-
-        {/* Orbit stage */}
-        <div className="relative h-[320px] sm:h-[380px] md:h-[480px] lg:h-[600px] xl:h-[720px] flex items-center justify-center overflow-visible">
-          {/* Keyframes */}
-          <style>{`
-            @keyframes orbit {
-              from { transform: rotate(0deg) translateX(var(--orbit-radius)) rotate(0deg); }
-              to   { transform: rotate(360deg) translateX(var(--orbit-radius)) rotate(-360deg); }
-            }
-            @keyframes spin {
-              from { transform: rotate(0deg); }
-              to   { transform: rotate(360deg); }
-            }
-            @keyframes fade-in-up {
-              from { opacity: 0; transform: translateY(12px); }
-              to   { opacity: 1; transform: translateY(0); }
-            }
-            .animate-fade-in-up {
-              animation: fade-in-up 0.3s ease-out both;
-            }
-          `}</style>
-
-          {/* Scaled orbit system */}
-          <div className="absolute inset-0 flex items-center justify-center scale-[0.45] sm:scale-[0.55] md:scale-[0.75] lg:scale-[0.9] xl:scale-100 transition-transform duration-500">
-            {/* Core planet */}
-            <div
-              className="relative z-20 w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-gradient-to-br from-space-accent to-purple-600 rounded-full flex items-center justify-center shadow-xl shadow-space-accent/30 cursor-pointer animate-pulse"
-              onMouseEnter={() => setActiveTech("CORE")}
-              onMouseLeave={() => setActiveTech(null)}
-              onFocus={() => setActiveTech("CORE")}
-              onBlur={() => setActiveTech(null)}
-              tabIndex={0}
-              role="button"
-              aria-label="Core strengths"
-            >
-              <Zap
-                size={18}
-                className="sm:w-5 sm:h-5 md:w-6 md:h-6 text-white"
-                aria-hidden="true"
-              />
+            <div className="mt-7 flex flex-wrap gap-x-5 gap-y-3">
+              {Object.entries(categoryConfig).map(([key, config]) => (
+                <span key={key} className="inline-flex items-center gap-2 text-xs text-muted-foreground">
+                  <span className={`h-1.5 w-1.5 rounded-full ${config.dot}`} />
+                  {config.label}
+                </span>
+              ))}
             </div>
 
-            {/* Orbit rings */}
-            {rings.map((ring, i) => (
-              <div
-                key={`ring-${i}`}
-                className="absolute rounded-full border border-white/10 opacity-30"
-                style={{
-                  width: `${ring.radius * 2}px`,
-                  height: `${ring.radius * 2}px`,
-                  animation: `spin ${ring.duration / orbitSpeed}s linear infinite`,
-                  animationDelay: `${i * 0.5}s`,
-                }}
-              />
-            ))}
+            <div className="mt-8 inline-flex items-center gap-3 border-y border-foreground/10 py-3">
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Slow down technology orbits"
+                onClick={() => setOrbitSpeed((speed) => Math.max(0.5, +(speed - 0.5).toFixed(1)))}
+                className="h-8 w-8 text-muted-foreground hover:text-space-accent"
+              >
+                <Minus size={14} />
+              </Button>
+              <span className="min-w-28 text-center text-xs text-muted-foreground">
+                Orbit speed <strong className="ml-1 font-mono text-foreground">{orbitSpeed.toFixed(1)}×</strong>
+              </span>
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Speed up technology orbits"
+                onClick={() => setOrbitSpeed((speed) => Math.min(3, +(speed + 0.5).toFixed(1)))}
+                className="h-8 w-8 text-muted-foreground hover:text-space-accent"
+              >
+                <Plus size={14} />
+              </Button>
+            </div>
+          </div>
 
-            {/* Orbiting planets */}
-            {isMounted &&
-              techsWithOrbit.map((tech) => {
-                const cfg = categoryConfig[tech.category];
+          {prefersReducedMotion ? (
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+              {techItems.map((tech) => {
+                const Icon = tech.icon;
                 return (
-                  <div
-                    key={tech.name}
-                    className="absolute top-1/2 left-1/2"
-                    style={
-                      {
-                        "--orbit-radius": `${tech.orbitRadius}px`,
-                        animation: `orbit ${tech.orbitDuration}s linear infinite`,
-                        animationDelay: `${tech.orbitDelay}s`,
-                      } as React.CSSProperties
-                    }
-                  >
-                    <div
-                      className={`absolute -translate-x-1/2 -translate-y-1/2 ${sizeClasses[tech.size]} rounded-full flex items-center justify-center font-bold shadow-lg cursor-pointer transition-all duration-300 hover:scale-125 hover:shadow-xl border ${cfg.color} text-white focus:outline-none focus:ring-2 focus:ring-white/50`}
-                      onMouseEnter={() => setActiveTech(tech.name)}
-                      onMouseLeave={() => setActiveTech(null)}
-                      onFocus={() => setActiveTech(tech.name)}
-                      onBlur={() => setActiveTech(null)}
-                      tabIndex={0}
-                      role="button"
-                      aria-label={`${tech.name} — ${cfg.label}`}
-                    >
-                      {tech.icon}
-                    </div>
+                  <div key={tech.name} className={`flex items-center gap-3 border px-3 py-3 ${categoryConfig[tech.category].classes}`}>
+                    <Icon size={18} aria-hidden="true" />
+                    <span className="text-xs font-medium">{tech.name}</span>
                   </div>
                 );
               })}
-          </div>
+            </div>
+          ) : (
+            <div className="relative mx-auto flex h-[390px] w-full max-w-[560px] items-center justify-center sm:h-[510px] md:h-[560px]" aria-label="Animated technology orbit">
+              <div className="absolute inset-0 flex scale-[0.55] items-center justify-center sm:scale-[0.75] md:scale-[0.88] lg:scale-100">
+                {rings.map((ring, index) => (
+                  <div
+                    key={ring.radius}
+                    className="absolute rounded-full border border-foreground/10"
+                    style={{ width: ring.radius * 2, height: ring.radius * 2, opacity: 0.9 - index * 0.08 }}
+                  />
+                ))}
 
-          {/* Active tech info panel */}
-          <div
-            className="absolute bottom-0 sm:bottom-2 left-1/2 -translate-x-1/2 w-full max-w-[280px] sm:max-w-sm z-30"
-            aria-live="polite"
-            aria-atomic="true"
-          >
-            {activeTech && (
-              <div className="glass cosmic-border p-3 sm:p-4 rounded-xl mx-3 sm:mx-4 animate-fade-in-up">
-                {activeTech === "CORE" ? (
-                  <div className="text-center">
-                    <h3 className="text-base sm:text-lg font-bold text-space-accent mb-0.5 sm:mb-1">
-                      Core Strengths
-                    </h3>
-                    <p className="text-gray-300 text-xs sm:text-sm">
-                      Systems architecture, security, and scalable engineering
-                    </p>
-                  </div>
-                ) : activeTechData ? (
-                  <div className="flex items-center gap-3 sm:gap-4">
+                <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full border border-space-accent/70 bg-space-dark text-space-accent shadow-[0_0_0_8px_hsl(var(--space-accent)/0.06)]">
+                  <Zap size={22} aria-hidden="true" />
+                </div>
+
+                {orbitItems.map((tech) => {
+                  const Icon = tech.icon;
+                  return (
                     <div
-                      className={`${sizeClasses[activeTechData.size]} rounded-full flex items-center justify-center border ${categoryConfig[activeTechData.category].color} text-white flex-shrink-0`}
+                      key={tech.name}
+                      className={`absolute left-1/2 top-1/2 h-10 w-10 -translate-x-1/2 -translate-y-1/2 animate-orbit-${tech.ring + 1}`}
+                      style={{
+                        "--orbit-radius": `${tech.orbit.radius}px`,
+                        animationDuration: `${tech.orbit.duration / orbitSpeed}s`,
+                        animationDelay: `${tech.delay}s`,
+                        animationPlayState: prefersReducedMotion ? "paused" : "running",
+                      } as React.CSSProperties}
                     >
-                      {activeTechData.icon}
-                    </div>
-                    <div className="min-w-0">
-                      <h3 className="text-base sm:text-lg font-bold text-white truncate">
-                        {activeTechData.name}
-                      </h3>
-                      <span
-                        className={`text-xs sm:text-sm ${categoryConfig[activeTechData.category].textColor}`}
+                      <button
+                        type="button"
+                        title={tech.name}
+                        aria-label={`${tech.name}, ${categoryConfig[tech.category].label}`}
+                        aria-pressed={activeTech === tech.name}
+                        onFocus={() => setActiveTech(tech.name)}
+                        onBlur={() => setActiveTech(null)}
+                        onMouseEnter={() => setActiveTech(tech.name)}
+                        onMouseLeave={() => setActiveTech(null)}
+                        className={`flex h-10 w-10 items-center justify-center rounded-full border transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-space-accent ${categoryConfig[tech.category].classes}`}
                       >
-                        {categoryConfig[activeTechData.category].label}
-                      </span>
+                        <Icon size={18} aria-hidden="true" />
+                      </button>
                     </div>
-                  </div>
+                  );
+                })}
+              </div>
+
+              <div className="pointer-events-none absolute bottom-2 left-1/2 min-h-11 w-full max-w-[260px] -translate-x-1/2 text-center" aria-live="polite">
+                {activeTech ? (
+                  <p className="border-t border-foreground/10 pt-3 text-xs text-muted-foreground">
+                    <span className="font-semibold text-foreground">{activeTech}</span>
+                    <span className="mx-2 text-space-warm">/</span>
+                    {categoryConfig[techItems.find((tech) => tech.name === activeTech)?.category ?? "tool"].label}
+                  </p>
                 ) : null}
               </div>
-            )}
-          </div>
-        </div>
-
-        {/* Legend */}
-        <div className="mt-6 sm:mt-8 md:mt-10 flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6">
-          {(Object.keys(categoryConfig) as TechCategory[]).map((cat) => (
-            <div key={cat} className="flex items-center gap-1.5 sm:gap-2">
-              <div
-                className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full ${categoryConfig[cat].dotColor}`}
-              />
-              <span className="text-[10px] sm:text-sm text-gray-300 capitalize">
-                {cat}
-              </span>
             </div>
-          ))}
+          )}
         </div>
       </div>
     </section>

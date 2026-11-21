@@ -1,10 +1,10 @@
-import React, { Suspense, useEffect, useMemo, useRef } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import {
-  Color,
   DoubleSide,
   MathUtils,
   MeshBasicMaterial,
+  type Group,
   SRGBColorSpace,
   TextureLoader,
 } from "three";
@@ -12,15 +12,15 @@ import portraitA from "@/assets/hm-character-a.png.asset.json";
 import portraitB from "@/assets/hm-character-b.png.asset.json";
 
 function Portrait() {
-  const portraitRef = useRef<THREE.Group>(null);
-  const ringRef = useRef<THREE.Group>(null);
+  const portraitRef = useRef<Group>(null);
+  const ringRef = useRef<Group>(null);
   const firstPoseMaterial = useRef<MeshBasicMaterial>(null);
   const secondPoseMaterial = useRef<MeshBasicMaterial>(null);
   const [textureA, textureB] = useLoader(TextureLoader, [
     portraitA.url,
     portraitB.url,
   ]);
-  const accent = useMemo(() => new Color(), []);
+  const [accent, setAccent] = useState("white");
 
   useEffect(() => {
     textureA.colorSpace = SRGBColorSpace;
@@ -28,8 +28,8 @@ function Portrait() {
     const token = getComputedStyle(document.documentElement)
       .getPropertyValue("--space-accent-color")
       .trim();
-    if (token) accent.setStyle(token);
-  }, [accent, textureA, textureB]);
+    if (token) setAccent(token);
+  }, [textureA, textureB]);
 
   useFrame((state, delta) => {
     if (portraitRef.current) {
@@ -108,7 +108,7 @@ function Portrait() {
 }
 
 const HeroScene: React.FC = () => (
-  <div className="absolute inset-x-0 bottom-0 top-[38%] z-0 pointer-events-none md:inset-y-0 md:left-[32%] md:right-0" aria-hidden="true">
+  <div className="hero-art-stage pointer-events-none absolute inset-x-0 bottom-0 top-[38%] z-0 md:inset-y-0 md:left-[32%] md:right-0" aria-hidden="true">
     <Canvas
       dpr={[1, 1.5]}
       camera={{ position: [0, 0, 6], fov: 42 }}

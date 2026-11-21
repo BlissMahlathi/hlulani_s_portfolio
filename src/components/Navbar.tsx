@@ -1,223 +1,131 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useRef,
-  useMemo,
-} from "react";
-import { Menu, X, Github, Linkedin } from "lucide-react";
-
-const socialLinks = {
-  github: "https://github.com/BlissMahlathi",
-  linkedin: "https://linkedin.com/in/hlulani-mahlathi",
-};
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ArrowUpRight, Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const navLinks = [
-  { name: "Home", href: "#home" },
   { name: "About", href: "#about" },
   { name: "Skills", href: "#skills" },
-  { name: "Projects", href: "#projects" },
+  { name: "Work", href: "#projects" },
+  { name: "Process", href: "#process" },
   { name: "Contact", href: "#contact" },
 ];
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const mobileMenuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const reduceMotion = useReducedMotion();
 
-  const handleScroll = useCallback(() => {
-    setScrolled(window.scrollY > 20);
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 18);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsOpen(false);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [handleScroll]);
-
-  // Close menu on Escape key
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isOpen) setIsOpen(false);
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen]);
-
-  // Close menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        isOpen &&
-        mobileMenuRef.current &&
-        !mobileMenuRef.current.contains(e.target as Node) &&
-        menuButtonRef.current &&
-        !menuButtonRef.current.contains(e.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isOpen]);
-
-  // Lock body scroll when mobile menu is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = isOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
   }, [isOpen]);
 
-  const toggleMenu = useCallback(() => {
-    setIsOpen((prev) => !prev);
-  }, []);
-
-  const closeMenu = useCallback(() => {
-    setIsOpen(false);
-  }, []);
-
-  const memoizedNavLinks = useMemo(() => navLinks, []);
+  const closeMenu = useCallback(() => setIsOpen(false), []);
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "py-2 sm:py-3 glass shadow-lg"
-          : "py-3 sm:py-4 md:py-6 bg-transparent"
-      }`}
+    <motion.nav
+      animate={{ backgroundColor: scrolled ? "rgba(17, 20, 18, 0.94)" : "rgba(17, 20, 18, 0)" }}
+      transition={{ duration: reduceMotion ? 0 : 0.25 }}
+      className="fixed inset-x-0 top-0 z-50 border-b border-foreground/10 backdrop-blur-md"
       aria-label="Main navigation"
     >
-      <div className="container mx-auto flex justify-between items-center px-3 sm:px-4 md:px-6">
-        {/* Logo */}
-        <div className="flex items-center min-w-0">
-          <a
-            href="#home"
-            className="text-lg sm:text-xl md:text-2xl font-bold text-white focus:outline-none focus:ring-2 focus:ring-space-accent rounded whitespace-nowrap"
-          >
-            <span className="text-space-accent">H</span>lulani
-            <span className="text-space-accent">.</span>
-          </a>
-          <span className="hidden lg:inline-block text-[10px] sm:text-xs ml-2 sm:ml-3 text-gray-400 truncate max-w-[120px] sm:max-w-[150px]">
-            Full-stack Web Systems Engineer
+      <div className="container mx-auto flex h-[68px] items-center justify-between px-4 sm:px-6 lg:px-10">
+        <a
+          href="#home"
+          onClick={closeMenu}
+          className="group flex items-center gap-3 text-foreground"
+          aria-label="Hlulani Mahlathi, home"
+        >
+          <span className="flex h-9 w-9 items-center justify-center border border-space-accent/70 font-display text-lg text-space-accent transition-colors group-hover:bg-space-accent group-hover:text-space-dark">
+            H
           </span>
-        </div>
+          <span className="hidden text-xs font-semibold uppercase sm:inline">Hlulani Mahlathi</span>
+        </a>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-4 lg:space-x-6">
-          {memoizedNavLinks.map((link) => (
+        <div className="hidden items-center gap-7 md:flex">
+          {navLinks.map((link, index) => (
             <a
               key={link.name}
               href={link.href}
-              className="text-xs lg:text-sm text-gray-300 hover:text-space-accent focus:text-space-accent focus:outline-none focus:ring-2 focus:ring-space-accent rounded px-1 transition-colors duration-300 whitespace-nowrap"
+              className="text-xs font-medium text-muted-foreground transition-colors hover:text-space-accent"
             >
+              <span className="mr-1.5 text-[9px] text-space-warm">0{index + 1}</span>
               {link.name}
             </a>
           ))}
-          <div className="flex items-center space-x-2 lg:space-x-3 ml-3 lg:ml-4 pl-3 lg:pl-4 border-l border-white/10">
-            <a
-              href={socialLinks.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-300 hover:text-white focus:text-white focus:outline-none focus:ring-2 focus:ring-space-accent rounded transition-colors"
-              aria-label="GitHub"
-            >
-              <Github size={16} className="lg:w-[18px] lg:h-[18px]" />
-            </a>
-            <a
-              href={socialLinks.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-300 hover:text-white focus:text-white focus:outline-none focus:ring-2 focus:ring-space-accent rounded transition-colors"
-              aria-label="LinkedIn"
-            >
-              <Linkedin size={16} className="lg:w-[18px] lg:h-[18px]" />
-            </a>
-            <a
-              href="#contact"
-              className="hidden xl:inline-block ml-2 cosmic-border glass px-3 lg:px-4 py-1.5 lg:py-2 rounded-md text-white text-xs lg:text-sm hover:bg-space-accent/90 focus:outline-none focus:ring-2 focus:ring-space-accent focus:ring-offset-2 focus:ring-offset-space-dark transition whitespace-nowrap"
-            >
-              Book a free consultation
-            </a>
-          </div>
+          <a
+            href="#contact"
+            className="ml-1 inline-flex items-center gap-2 border border-foreground/20 px-3 py-2 text-xs font-semibold text-foreground transition-colors hover:border-space-accent hover:text-space-accent"
+          >
+            Let&apos;s talk <ArrowUpRight size={13} />
+          </a>
         </div>
 
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
-          <button
-            ref={menuButtonRef}
-            onClick={toggleMenu}
-            className="text-gray-300 hover:text-white focus:text-white focus:outline-none focus:ring-2 focus:ring-space-accent rounded p-1 transition-colors"
-            aria-expanded={isOpen}
-            aria-controls="mobile-menu"
-            aria-label={isOpen ? "Close menu" : "Open menu"}
-          >
-            {isOpen ? (
-              <X size={22} className="sm:w-6 sm:h-6" />
-            ) : (
-              <Menu size={22} className="sm:w-6 sm:h-6" />
-            )}
-          </button>
-        </div>
+        <Button
+          ref={menuButtonRef}
+          variant="ghost"
+          size="icon"
+          onClick={() => setIsOpen((open) => !open)}
+          className="text-foreground hover:bg-foreground/10 hover:text-space-accent md:hidden"
+          aria-expanded={isOpen}
+          aria-controls="mobile-menu"
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+        >
+          {isOpen ? <X size={21} /> : <Menu size={21} />}
+        </Button>
       </div>
 
-      {/* Mobile Menu */}
-      <div
-        id="mobile-menu"
-        ref={mobileMenuRef}
-        className={`md:hidden absolute top-full left-0 right-0 glass border-t border-white/5 transition-all duration-300 ease-in-out ${
-          isOpen
-            ? "opacity-100 translate-y-0 pointer-events-auto"
-            : "opacity-0 -translate-y-4 pointer-events-none"
-        }`}
-      >
-        <div className="flex flex-col px-3 sm:px-4 py-4 sm:py-6 space-y-0.5">
-          {memoizedNavLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={closeMenu}
-              className="text-gray-300 hover:text-white hover:bg-white/5 focus:text-white focus:bg-white/5 focus:outline-none rounded-lg px-3 py-2.5 sm:py-3 text-sm sm:text-base transition-colors duration-300"
-            >
-              {link.name}
-            </a>
-          ))}
-          <div className="pt-4 sm:pt-6 mt-3 sm:mt-4 border-t border-white/10 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
-            <div className="flex items-center justify-center sm:justify-start space-x-5 sm:space-x-4">
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            id="mobile-menu"
+            initial={reduceMotion ? false : { opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: reduceMotion ? 0 : 0.22 }}
+            className="overflow-hidden border-t border-foreground/10 bg-background md:hidden"
+          >
+            <div className="container mx-auto flex flex-col px-5 pb-5 pt-2">
+              {navLinks.map((link, index) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={closeMenu}
+                  className="flex items-center border-b border-foreground/10 py-3.5 text-sm font-medium text-foreground"
+                >
+                  <span className="mr-4 font-mono text-[10px] text-space-warm">0{index + 1}</span>
+                  {link.name}
+                </a>
+              ))}
               <a
-                href={socialLinks.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub"
-                className="text-gray-300 hover:text-white focus:text-white focus:outline-none focus:ring-2 focus:ring-space-accent rounded p-1 transition-colors"
+                href="#contact"
+                onClick={closeMenu}
+                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-space-accent"
               >
-                <Github size={20} className="sm:w-[22px] sm:h-[22px]" />
-              </a>
-              <a
-                href={socialLinks.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="text-gray-300 hover:text-white focus:text-white focus:outline-none focus:ring-2 focus:ring-space-accent rounded p-1 transition-colors"
-              >
-                <Linkedin size={20} className="sm:w-[22px] sm:h-[22px]" />
+                Start a conversation <ArrowUpRight size={15} />
               </a>
             </div>
-            <a
-              href="#contact"
-              onClick={closeMenu}
-              className="cosmic-border glass px-4 py-2.5 sm:py-2 rounded-md text-white text-sm sm:text-base text-center hover:bg-space-accent/90 transition"
-            >
-              Book a free consultation
-            </a>
-          </div>
-        </div>
-      </div>
-    </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.nav>
   );
 };
 
